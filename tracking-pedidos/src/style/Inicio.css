@@ -1,5 +1,11 @@
 .titulo{
     text-align: center;
+    padding: 10px;
+}
+.logoempresa{
+    width: 150px;
+    height: auto;
+    padding: 20px;
 }
 .nav-item{
     display: flex;
