@@ -1,0 +1,14 @@
+.titulo{
+    text-align: center;
+}
+.nav-item{
+    display: flex;
+    flex-flow: row;
+    flex-direction: row;
+    padding: 10px;
+}
+.container-pedidos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

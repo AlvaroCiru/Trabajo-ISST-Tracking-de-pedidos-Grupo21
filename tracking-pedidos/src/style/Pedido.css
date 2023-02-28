@@ -1,0 +1,7 @@
+.unpedido{
+    display: inline-block; 
+    width: 200px; 
+    padding: 10px; 
+    box-shadow: 2px 2px 7px #ccc;
+    margin: 5px;
+  }
