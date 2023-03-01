@@ -7,6 +7,8 @@ import NoMatch from './NoMatch.js';
 import Login from './paginas/Login.js';
 import Registro from './paginas/Registro.js';
 import {mockdata} from './../data/pedidos'
+import Comprador from './paginas/Comprador';
+import Gestor from './paginas/Gestor';
 
 function App() {
 
@@ -17,9 +19,11 @@ function App() {
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"/>
       <Navbar/>
       <Routes>   
-          <Route path="/" element={<Inicio pedidos={data.pedidos}/>}/>
+          <Route path="/" element={<Inicio/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/registro" element={<Registro/>}/>
+          <Route path="/comprador" element={<Comprador pedidos={data.pedidos}/>}/>
+          <Route path="/gestor" element={<Gestor pedidos={data.pedidos}/>}/>
           <Route path="*" element={<NoMatch />} />
       </Routes>
     </div>
