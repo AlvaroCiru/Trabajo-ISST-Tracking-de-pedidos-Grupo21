@@ -3,14 +3,13 @@ import "./../../style/Inicio.css"
 import Logo from "./../navegacion/svg-1.svg"
 import LogoEbay from "./../../images/450px-EBay_logo.svg.png"
 import LogoAmazon from "./../../images/Amazon_logo.svg.png"
-import LogoNike from "./../../images/Logo_NIKE.svg.png"
 import LogoAliExpress from "./../../images/Aliexpress_logo.svg.png"
 import Pedido from "../Pedido";
 
 
 export default function Inicio(props){
     
-    const [pedidos, setPedidos] = useState(props.pedidos);
+    const [pedidos, setPedidos] = useState(null);
 
     const empresas = props.pedidos.reduce(
         (previousValue, currentValue)=>{
@@ -20,7 +19,6 @@ export default function Inicio(props){
             return previousValue;
     },[]);
 
-    console.log(empresas)
 
     const filtraempresa = (emp) => {
 
@@ -30,12 +28,10 @@ export default function Inicio(props){
         el.empresa.toString().toLowerCase().includes(emp.toString().toLowerCase()));
     }
 
-    console.log(filtraempresa("amazon"))
-
-
+console.log(LogoEbay)
     return(
         <div>
-            <h1 className="titulo">Página principal</h1>
+            <h1 className="titulo">Bienvenido Alvaro!</h1>
             <p></p>
             <div className="container-pedidos">
                 <div className="elementopedidos">
@@ -47,34 +43,35 @@ export default function Inicio(props){
                         <li className="nav-item">
                             <img src={LogoEbay}  className="logoempresa" alt="logo"></img>
                             <button type="button" className="btn btn-primary btn-sm"
-                             onClick={()=>setPedidos(filtraempresa("ebay"))}>Active</button>
+                             onClick={()=>setPedidos(filtraempresa("ebay"))}>Ver</button>
                         </li>
                         <li className="nav-item">
                             <img src={LogoAmazon}  className="logoempresa" alt="logo"></img>
                             <button type="button" className="btn btn-primary btn-sm"
-                            onClick={()=>setPedidos(filtraempresa("amazon"))}>Active</button></li>
+                            onClick={()=>setPedidos(filtraempresa("amazon"))}>Ver</button></li>
                         <li className="nav-item">
-                            <img src={LogoNike}  className="logoempresa" alt="logo"></img>
+                            <img src="Logo_NIKE.svg.png"  className="logoempresa" alt="logo"></img>
                             <button type="button" className="btn btn-primary btn-sm"
-                             onClick={()=>setPedidos(filtraempresa("nike"))}>Active</button></li>
+                             onClick={()=>setPedidos(filtraempresa("nike"))}>Ver</button></li>
                         <li className="nav-item">
                             <img src={LogoAliExpress} className="logoempresa" alt="logo"></img>
                             <button type="button" className="btn btn-primary btn-sm"
-                             onClick={()=>setPedidos(filtraempresa("aliexpress"))}>Active</button></li>
+                             onClick={()=>setPedidos(filtraempresa("aliexpress"))}>Ver</button></li>
                         <li className="nav-item">
-                            <button type="button" className="btn btn-primary btn-sm">Active</button>
+                            <button type="button" className="btn btn-primary btn-sm">Más empresas</button>
                         </li>
                     </ul>
                 </div>
                 <div className="elementopedidos">
-                    {pedidos.map((pedido, index)=>
+                    {pedidos ? pedidos.map((pedido, index)=>
                         <Pedido
                             key= {index}
                             id= {pedido.id}
                             title= {pedido.title}
                             description= {pedido.description}
+                            img= {pedido.img}
                         />
-                    )}
+                    ) : <h3>Haz click en la compañía que deseas consultar tus pedidos en curso</h3>}
 
 
                 </div>

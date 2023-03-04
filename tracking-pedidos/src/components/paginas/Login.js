@@ -11,7 +11,7 @@ export default function Login(props){
                 <p></p>
                 <input type="password" className="form-control" placeholder="Password" aria-label="Password"/>
                 <p></p>
-                <button type="button" className="btn btn-outline-success">ENTRAR</button>
+                <Link to="/iniciologin"><button type="button" className="btn btn-outline-success">ENTRAR</button></Link>
             </div>
             <p></p>
             <Link to="/"><button id="volver"type="button" className="btn btn-outline-secondary">VOLVER</button></Link>

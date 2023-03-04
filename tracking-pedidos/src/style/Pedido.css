@@ -1,7 +1,12 @@
 .unpedido{
-    display: inline-block; 
-    width: 200px; 
+    display: grid; 
+    width: 350px; 
+    height: 350px;
     padding: 10px; 
     box-shadow: 2px 2px 7px #ccc;
     margin: 5px;
+    text-align: center;
+  }
+  .elementopedido{
+    padding: 5px;
   }
