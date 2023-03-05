@@ -1,20 +1,5 @@
-.titulo{
-    text-align: center;
-    padding: 10px;
-}
-.logoempresa{
-    width: 150px;
-    height: auto;
-    padding: 20px;
-}
-.nav-item{
-    display: flex;
-    flex-flow: row;
-    flex-direction: row;
-    padding: 10px;
-}
-.container-pedidos{
+.elementopedidos {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: left;
 }

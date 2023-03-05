@@ -1,7 +1,10 @@
 .unpedido{
-    display: inline-block; 
-    width: 200px; 
-    padding: 10px; 
-    box-shadow: 2px 2px 7px #ccc;
-    margin: 5px;
-  }
+  display: flex;
+  flex-direction: column;
+  width: 200px; 
+  height: 300px;
+  padding: 10px;
+  box-shadow: 2px 2px 7px #ccc;
+  margin: 10px;
+  border-radius: 10px;
+}
