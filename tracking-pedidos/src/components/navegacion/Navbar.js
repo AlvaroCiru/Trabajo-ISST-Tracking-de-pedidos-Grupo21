@@ -15,7 +15,6 @@ export default function Navbar(props){
                         <Link className="btn btn-sm btn-outline-secondary" to='/registro'>Regístrate</Link>
                     </form>
                 </div>
-
             </nav>        
         </div>
     )
