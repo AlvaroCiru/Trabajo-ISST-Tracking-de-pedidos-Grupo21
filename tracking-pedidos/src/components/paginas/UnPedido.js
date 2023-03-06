@@ -4,10 +4,6 @@ import { Link, useParams } from "react-router-dom";
 
 
 export default function UnPedido(props){
-
-    let {id} = useParams()
-    let pedido = props.pedidos[id]
-    console.log(pedido)
     
     return(
         <div className="pedido">

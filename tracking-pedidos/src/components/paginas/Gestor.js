@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./../../style/Inicio.css"
+import "./../../style/Comprador.css"
 import Pedido from "../Pedido";
 import { Link } from "react-router-dom";
 
@@ -32,24 +32,26 @@ export default function Gestor(props){
 
     return(
         <div>
-            <h1 className="titulo">Página del Gestor</h1>
-            <p></p>
-            <div className="container-pedidos">
-                <div className="elementopedidos">
-                    {pedidos.map((pedido, index)=>
-                        <Link className="btn btn-outline-success me-2" to={ruta+String(index)}>
-                            <Pedido
-                                key= {index}
-                                id= {pedido.id}
-                                title= {pedido.title}
-                                description= {pedido.description}
-                            />
-                        </Link>
-                        
-                    )}
+            <h2 className="titulo">Página del Gestor</h2>
+            <div className="contenidocomprador">
+                <div className="container-pedidos">
+                    <h3 className="mispedidos">Pedidos Operativos</h3>
+                    <div className="elementopedidos">
+                        {pedidos.map((pedido, index)=>
+                            <div className="tarjetapedido">
+                                <Pedido
+                                    key= {index}
+                                    id= {pedido.id}
+                                    title= {pedido.title}
+                                    description= {pedido.description}
+                                    ruta={ruta}
+                                />
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>      
-          
+                <div className="historico">Ver Histórico de Pedidos</div>
+            </div>
         </div>
     )
 }

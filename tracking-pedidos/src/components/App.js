@@ -25,6 +25,8 @@ function App() {
           <Route path="/registro" element={<Registro/>}/>
           <Route path="/comprador" element={<Comprador pedidos={data.pedidos}/>}/>
           <Route path="/gestor" element={<Gestor pedidos={data.pedidos}/>}/>
+          <Route path="/comprador/:idPedido" element={<UnPedido pedidos={data.pedidos}/>}/>
+          <Route path="/gestor/:idPedido" element={<UnPedido pedidos={data.pedidos}/>}/>
           <Route path="*" element={<NoMatch />} />
       </Routes>
       <Footer />

@@ -5,35 +5,35 @@ export const mockdata = {
             "empresa": "ebay",
             "title": "IPhone 13",
             "description": "Pedido de un IPhone 13",
-            "img": "iphone13.png",
+            "img": "../images/iphone13.jpg",
         },
         {
             "id": 2,
             "empresa": "ebay",
             "title": "SmartWatch",
             "description": "Pedido de un SmartWatch",
-            "img": "smartwatch.png",
+            "img": "../images/smartwatch.jpg",
         },
         {
             "id": 3,
             "empresa": "nike",
             "title": "Nike Air Force 1",
             "description": "Pedido de unas zapatillas Nike Air Force 1",
-            "img": "air-force-1.png",
+            "img": "../images/airforce1.jpg",
         },
         {
             "id": 4,
             "empresa": "amazon",
             "title": "Funda IPhone 13",
             "description": "Pedido de una funda para IPhone 13",
-            "img": "funda-iphone13.png",
+            "img": "../images/fundaiphone13.jpg",
         },
         {
             "id": 5,
             "empresa": "AliExpress",
             "title": "Funda para portátil",
             "description": "Pedido de una funda para portátil",
-            "img": "funda-portatil.png",
+            "img": "../images/fundaportatil.jpg",
         }
     ]
 };
