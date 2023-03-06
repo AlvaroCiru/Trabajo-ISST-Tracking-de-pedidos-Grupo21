@@ -1,19 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "./svg-1.svg"
+import Logo from "./logoTarget.png"
 import "./../../style/Navbar.css"
 
 export default function Navbar(props){
     return(
         <div>
-            <nav className="navbar bg-body-tertiary">
-                <div className="container-fluid">
-                    <img src={Logo} alt="Logo" width="50" height="50" className="d-inline-block align-text-top"></img>
-                    <h1>Tracking de pedidos</h1>
-                    <form >
-                        <Link className="btn btn-outline-success me-2" to='/login'>Inicia Sesión</Link>
-                        <Link className="btn btn-sm btn-outline-secondary" to='/registro'>Regístrate</Link>
-                    </form>
+            <nav className="navegador">
+                <div className="header">
+                    <img src={Logo} alt="Logo" width="65" height="65" className="logo"></img>
+                    <h1 className="mainTitle">Tracking de pedidos</h1>
+                    <div className="botones">
+                        <Link className="iniciaSesion" to='/login'>Iniciar Sesión</Link>
+                        <Link className="registrarse" to='/registro'>Registrarse</Link>
+                    </div>
                 </div>
             </nav>        
         </div>

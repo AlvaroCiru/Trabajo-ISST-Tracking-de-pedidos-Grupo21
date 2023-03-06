@@ -1,0 +1,57 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.registro {
+    display: flex;
+    flex-direction: column;
+    border: 3px solid black;
+    padding: 20px;
+    border-radius: 15px;
+    align-items: center;
+}
+
+.datosPersonales {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.localizacion {
+    display: flex;
+    flex-direction: column;
+}
+
+.registroTitle {
+    text-align: center;
+    font-size:x-large;
+    margin: 0;
+}
+
+.formRegistro {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.dato {
+    border: 2px solid gray;
+    border-radius: 5px;
+    width: 300px;
+    height: 30px;
+    margin: 5px;
+}
+
+#enviar {
+    width: 200px;
+}
+
+#volverRegistro {
+    margin-top: 0;
+}

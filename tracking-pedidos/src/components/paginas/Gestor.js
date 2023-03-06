@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./../../style/Inicio.css"
-import LogoEbay from "./../../images/450px-EBay_logo.svg.png"
-import LogoAmazon from "./../../images/Amazon_logo.svg.png"
-import LogoNike from "./../../images/Logo_NIKE.svg.png"
-import LogoAliExpress from "./../../images/Aliexpress_logo.svg.png"
 import Pedido from "../Pedido";
 import { Link } from "react-router-dom";
 

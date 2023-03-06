@@ -5,13 +5,21 @@ import "./../../style/Login.css"
 export default function Login(props){
     return(
         <div className="container">
-            <div className="form">
-                <input type="text" className="form-control" placeholder="Username" aria-label="Username"/>
-                <input type="password" className="form-control" placeholder="Password" aria-label="Password"/>
-                <p></p>
-                <button type="button" className="btn btn-outline-success">ENTRAR</button>
+            <div className="pestana">
+                <h3 className="loginTitle">Login</h3>
+                <div className="login">
+                    <div className="formulario">
+                        <input type="text" className="input" placeholder="Username" aria-label="Username"/>
+                        <input type="password" className="input" placeholder="Password" aria-label="Password"/>
+                        <button type="button" className="enter">ENTRAR</button>
+                    </div>
+                    <div className="botonesUsuario">
+                        <Link to="/comprador" className="botoncomprador">COMPRADOR</Link>
+                        <Link to="/gestor" className="botongestor">GESTOR</Link>
+                    </div>
+                </div>
+                <Link to="/" className="volver">VOLVER</Link>
             </div>
-            <Link to="/"><button id="volver"type="button" className="btn btn-outline-secondary">VOLVER</button></Link>
         </div>
     )
 }

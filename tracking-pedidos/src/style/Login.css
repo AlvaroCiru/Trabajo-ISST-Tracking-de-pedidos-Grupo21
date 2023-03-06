@@ -2,6 +2,120 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: space-around;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.pestana {
+    display: flex;
+    flex-direction: column;
+    border: 3px solid black;
+    padding: 20px;
+    border-radius: 15px;
+    align-items: center;
+}
+
+.loginTitle {
     text-align: center;
+    font-size:x-large;
+    margin: 0;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.input {
+    border: 2px solid gray;
+    border-radius: 5px;
+    width: 300px;
+    height: 30px;
+    margin: 10px;
+}
+
+.input::placeholder {
+    color: gray;
+}
+
+.enter {
+    border: 2px solid #3f3f3f;
+    border-radius: 7px;
+    padding: 5px;
+    margin: 5px;
+    margin-right: 10px;
+    background-color: white;
+    color: #3f3f3f;
+    text-decoration: none;
+}
+
+.enter:hover {
+    background-color: #3f3f3f;
+    color: white;
+
+}
+
+.botonesUsuario {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    justify-content: center;
+}
+
+.botoncomprador {
+    border: 2px solid black;
+    border-radius: 7px;
+    padding: 5px;
+    margin: 5px;
+    margin-right: 10px;
+    width: 100px;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+}
+
+.botoncomprador:hover {
+    background-color: #D11111;
+    color: #FFC7C7;
+
+}
+
+.botongestor {
+    border: 2px solid black;
+    border-radius: 7px;
+    padding: 5px;
+    margin: 5px;
+    margin-right: 10px;
+    width: 100px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+}
+
+.botongestor:hover {
+    background-color: #1154D1;
+    color: #d3e3ff;
+
+}
+
+.volver {
+    border: 2px solid black;
+    border-radius: 7px;
+    padding: 5px;
+    margin: 5px;
+    margin-right: 10px;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    width: 100px;
+}
+
+.volver:hover {
+    background-color: black;
+    color: white;
+
 }
