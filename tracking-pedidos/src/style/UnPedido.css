@@ -1,2 +1,13 @@
 .pedido {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.infopedido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

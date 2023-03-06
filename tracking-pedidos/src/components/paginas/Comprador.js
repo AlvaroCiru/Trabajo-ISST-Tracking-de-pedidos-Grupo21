@@ -44,7 +44,7 @@ export default function Comprador(props){
                                     id= {pedido.id}
                                     title= {pedido.title}
                                     description= {pedido.description}
-                                    ruta={ruta}
+                                    ruta="/comprador/"
                                 />
                             </div>
                         )}

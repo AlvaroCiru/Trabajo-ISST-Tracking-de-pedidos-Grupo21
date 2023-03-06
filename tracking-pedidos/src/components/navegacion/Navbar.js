@@ -8,7 +8,7 @@ export default function Navbar(props){
         <div>
             <nav className="navegador">
                 <div className="header">
-                    <img src={Logo} alt="Logo" width="65" height="65" className="logo"></img>
+                    <Link to='/'><img src={Logo} alt="Logo" width="65" height="65" className="logo"></img></Link>
                     <h1 className="mainTitle">Tracking de pedidos</h1>
                     <div className="botones">
                         <Link className="iniciaSesion" to='/login'>Iniciar Sesión</Link>
