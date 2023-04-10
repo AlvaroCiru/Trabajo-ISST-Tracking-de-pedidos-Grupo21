@@ -1,47 +1,132 @@
 package es.upm.dit.isst.backend.controller;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.upm.dit.isst.backend.model.Comprador;
-import es.upm.dit.isst.backend.model.Empresa;
 import es.upm.dit.isst.backend.model.Pedido;
-import es.upm.dit.isst.backend.model.Usuario;
-import es.upm.dit.isst.backend.repository.CompradorRepository;
 import es.upm.dit.isst.backend.repository.EmpresaRepository;
 import es.upm.dit.isst.backend.repository.PedidoRepository;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
-@RequestMapping("/")
 public class PedidoController {
 
     @Autowired
     PedidoRepository pedidoRepository;
 
     @Autowired
-    CompradorRepository compradorRepository;
-
-    @Autowired
     EmpresaRepository empresaRepository;
 
-    @GetMapping()
-    public List<Pedido> readAll() {
+    @GetMapping("/pedidos")
+    public List<Pedido> getAllPedidos() {
         return (List<Pedido>) pedidoRepository.findAll();
     }
 
-    @GetMapping("comprador/{userId}")
-    public List<Pedido> getPedidosByComprador(@PathVariable int compradorId) {
-        List<Comprador> compradores = compradorRepository.findById(compradorId);
-        Comprador comprador = compradores.get(0);
-        List<Pedido> listaPedidos = pedidoRepository.findByComprador(comprador);
-        return listaPedidos;
+    @GetMapping("/pedidos/{pedidoId}")
+    public ResponseEntity<?> getPedido(@PathVariable String pedidoId) {
+        try {
+            Optional<Pedido> pedido = pedidoRepository.findById(pedidoId);
+            if (!pedido.isPresent()) {
+                return ResponseEntity.ok().body("No existe el pedido");
+            }
+            return ResponseEntity.ok().body(pedido);
+        } catch (IllegalArgumentException iae) {
+            return ResponseEntity.ok().body(iae);
+        }
+    }
+
+    @PostMapping("/pedidos")
+    public ResponseEntity<?> createPedido(@RequestBody Pedido pedido) {
+        try {
+            Pedido newPedido = new Pedido();
+            if (pedido == null) {
+                return ResponseEntity.badRequest().body("No se ha proporcionado ningún pedido");
+            }
+            if(pedidoRepository.findById(pedido.getCodigo()).isPresent()) {
+                return ResponseEntity.ok().body("El pedido proporcionado ya existe");
+            }
+            if (pedido.getCodigo() == null || pedido.getCodigo().equals("")) {
+                return ResponseEntity.badRequest().body("El código no puede estar vacío");
+            } else {
+                newPedido.setCodigo(pedido.getCodigo());
+            }
+            if (pedido.getTitulo() == null || pedido.getTitulo().equals("")) {
+                return ResponseEntity.badRequest().body("El título no puede estar vacío");
+            } else {
+                newPedido.setTitulo(pedido.getTitulo());
+            }
+            newPedido.setDescripcion(pedido.getDescripcion());
+            newPedido.setFechaCreacion(LocalDate.now());
+            newPedido.setHoraCreacion(LocalTime.now());
+            newPedido.setEstado(0);
+            if (pedido.getUsuario() != null) {
+                newPedido.setUsuario(pedido.getUsuario());
+            }
+            // if(pedido.getEmpresa() == null) {
+            //     return ResponseEntity.badRequest().body("El pedido debe tener siempre una empresa asociada");
+            // } else {
+                newPedido.setEmpresa(pedido.getEmpresa());
+            // }
+            // if(pedido.getVehiculo() == null) {
+            //     return ResponseEntity.badRequest().body("El pedido debe tener siempre un vehículo asociado");
+            // } else {
+                newPedido.setVehiculo(pedido.getVehiculo());
+            // }
+            // if(pedido.getOrigen() == null) {
+            //     return ResponseEntity.badRequest().body("El pedido debe tener siempre una dirección de origen");
+            // } else {
+                newPedido.setOrigen(pedido.getOrigen());
+            // }
+            // if(pedido.getDestino() == null) {
+            //     return ResponseEntity.badRequest().body("El pedido debe tener siempre una dirección de destino");
+            // } else {
+                newPedido.setDestino(pedido.getDestino());
+            // }
+            Pedido pedidoCreado = pedidoRepository.save(pedido);
+            return ResponseEntity.created(new URI("/pedidos/" + pedidoCreado.getCodigo())).body(pedidoCreado);
+        } catch (IllegalArgumentException iae) {
+            return ResponseEntity.badRequest().body(iae);
+        } catch (URISyntaxException use) {
+            return ResponseEntity.badRequest().body(use);
+        }
+        
+    }
+
+    @PutMapping(value="pedidos/{pedidoId}")
+    public ResponseEntity<?> putPedido(@PathVariable String pedidoId, @RequestBody Pedido pedidoReq) {
+        Pedido pedido = pedidoRepository.findById(pedidoId).get();
+        if (pedido == null) {
+            return ResponseEntity.badRequest().body("No hay ningún pedido con el código proporcionado");
+        }
+        
+        return new ResponseEntity<>(pedidoReq, HttpStatus.OK);
+    }
+    
+    @DeleteMapping(value="pedidos/{pedidoId}")
+    public ResponseEntity<?> deletePedido(@PathVariable String pedidoId) {
+        Optional<Pedido> pedido = pedidoRepository.findById(pedidoId);
+        if(!pedido.isPresent()) {
+            return ResponseEntity.ok().body("No existe ese pedido");
+        }
+        pedidoRepository.deleteById(pedidoId);
+        return ResponseEntity.ok().body(pedido.get());
     }
 
 }

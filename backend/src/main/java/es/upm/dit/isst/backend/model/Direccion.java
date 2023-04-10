@@ -17,7 +17,6 @@ public class Direccion {
     private String provincia;
     private String ciudad;
     private String postalCode;
-    private String calle;
-    private int numero;
+    private String calleYnumero;
     private String vivienda;
 }

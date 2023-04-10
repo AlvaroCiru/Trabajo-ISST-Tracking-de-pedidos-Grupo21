@@ -19,35 +19,26 @@ import jakarta.validation.constraints.NotNull;
 public class Pedido {
     @Id
     private String codigo;
-    @NotBlank
+    // @NotBlank
     private String titulo;
-
     private String descripcion;
-
     private LocalDate fechaCreacion;
-    
     private LocalTime horaCreacion;
-
-    @NotNull
+    // @NotNull
     @Max(2)
     private int estado;
-    
-    @NotNull
+    // @NotNull
     @ManyToOne
     private Vehiculo vehiculo;
-
     @ManyToOne
-    private Comprador comprador;
-
-    @NotNull
+    private Usuario usuario;
+    // @NotNull
     @ManyToOne
     private Empresa empresa;
-
-    @NotNull
+    // @NotNull
     @ManyToOne
     private Direccion origen;
-
-    @NotNull
+    // @NotNull
     @ManyToOne
     private Direccion destino;
 }
