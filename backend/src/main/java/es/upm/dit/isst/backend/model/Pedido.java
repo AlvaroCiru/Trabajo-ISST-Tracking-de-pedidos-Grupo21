@@ -37,9 +37,6 @@ public class Pedido {
     private Vehiculo vehiculo;
 
     @ManyToOne
-    private Conductor conductor;
-
-    @ManyToOne
     private Comprador comprador;
 
     @NotNull

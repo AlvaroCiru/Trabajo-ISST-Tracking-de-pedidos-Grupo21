@@ -14,4 +14,5 @@ public class Vehiculo {
     private int id;
     private String matricula;
     private String modelo;
+    private String telefonoVehiculo;
 }
