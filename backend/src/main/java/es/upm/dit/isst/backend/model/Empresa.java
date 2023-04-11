@@ -17,19 +17,14 @@ import jakarta.validation.constraints.Size;
 public class Empresa {
     @Id
     private int id;
-
-    @NotBlank
+    // @NotBlank
     private String nombre;
-
-    @Email
-    @NotBlank
+    // @Email
+    // @NotBlank
     private String email;
-
-    @NotBlank
-    @Size(max = 12)
+    // @NotBlank
+    // @Size(max = 12)
     private String telefono;
-
-    @NotNull
-    @OneToOne
-    private Direccion direccion;
+    // @NotNull
+    private int direccion;
 }

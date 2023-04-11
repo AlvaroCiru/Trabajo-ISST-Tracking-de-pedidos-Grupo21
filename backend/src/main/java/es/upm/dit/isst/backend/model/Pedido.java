@@ -25,20 +25,15 @@ public class Pedido {
     private LocalDate fechaCreacion;
     private LocalTime horaCreacion;
     // @NotNull
-    @Max(2)
+    // @Max(2)
     private int estado;
     // @NotNull
-    @ManyToOne
-    private Vehiculo vehiculo;
-    @ManyToOne
-    private Usuario usuario;
+    private int vehiculo;
+    private int usuario;
     // @NotNull
-    @ManyToOne
-    private Empresa empresa;
+    private int empresa;
     // @NotNull
-    @ManyToOne
-    private Direccion origen;
+    private int origen;
     // @NotNull
-    @ManyToOne
-    private Direccion destino;
+    private int destino;
 }

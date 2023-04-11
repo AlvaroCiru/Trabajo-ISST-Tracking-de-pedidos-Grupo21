@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import lombok.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 @AllArgsConstructor
@@ -20,8 +19,6 @@ public class Traza {
     private double longitud;
     private LocalDate fechaCreacion;
     private LocalTime horaCreacion;
-    @ManyToOne
-    private Pedido pedido;
-    @ManyToOne
-    private Vehiculo vehiculo;
+    private String pedidoId;
+    private int vehiculoId;
 }
