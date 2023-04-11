@@ -19,4 +19,5 @@ public class Direccion {
     private String postalCode;
     private String calleYnumero;
     private String vivienda;
+    
 }

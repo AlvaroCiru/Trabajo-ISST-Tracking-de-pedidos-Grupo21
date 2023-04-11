@@ -6,10 +6,10 @@ import java.time.LocalTime;
 import lombok.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+// import jakarta.persistence.ManyToOne;
+// import jakarta.validation.constraints.Max;
+// import jakarta.validation.constraints.NotBlank;
+// import jakarta.validation.constraints.NotNull;
 
 @Entity
 @AllArgsConstructor
