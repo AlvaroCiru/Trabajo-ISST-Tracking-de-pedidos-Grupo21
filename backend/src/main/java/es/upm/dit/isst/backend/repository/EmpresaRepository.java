@@ -7,5 +7,4 @@ import org.springframework.data.repository.CrudRepository;
 import es.upm.dit.isst.backend.model.Empresa;
 
 public interface EmpresaRepository extends CrudRepository<Empresa, Integer>{
-    List<Empresa> findById(int id);
 }
