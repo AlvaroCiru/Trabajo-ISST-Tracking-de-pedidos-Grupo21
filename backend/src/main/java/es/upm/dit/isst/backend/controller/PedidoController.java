@@ -76,29 +76,11 @@ public class PedidoController {
             newPedido.setFechaCreacion(LocalDate.now());
             newPedido.setHoraCreacion(LocalTime.now());
             newPedido.setEstado(0);
-            if (pedido.getUsuario() != null) {
-                newPedido.setUsuario(pedido.getUsuario());
-            }
-            // if(pedido.getEmpresa() == null) {
-            //     return ResponseEntity.badRequest().body("El pedido debe tener siempre una empresa asociada");
-            // } else {
-                newPedido.setEmpresa(pedido.getEmpresa());
-            // }
-            // if(pedido.getVehiculo() == null) {
-            //     return ResponseEntity.badRequest().body("El pedido debe tener siempre un vehículo asociado");
-            // } else {
-                newPedido.setVehiculo(pedido.getVehiculo());
-            // }
-            // if(pedido.getOrigen() == null) {
-            //     return ResponseEntity.badRequest().body("El pedido debe tener siempre una dirección de origen");
-            // } else {
-                newPedido.setOrigen(pedido.getOrigen());
-            // }
-            // if(pedido.getDestino() == null) {
-            //     return ResponseEntity.badRequest().body("El pedido debe tener siempre una dirección de destino");
-            // } else {
-                newPedido.setDestino(pedido.getDestino());
-            // }
+            newPedido.setUsuario(pedido.getUsuario());
+            newPedido.setEmpresa(pedido.getEmpresa());
+            newPedido.setVehiculo(pedido.getVehiculo());
+            newPedido.setOrigen(pedido.getOrigen());
+            newPedido.setDestino(pedido.getDestino());
             Pedido pedidoCreado = pedidoRepository.save(pedido);
             return ResponseEntity.created(new URI("/pedidos/" + pedidoCreado.getCodigo())).body(pedidoCreado);
         } catch (IllegalArgumentException iae) {
@@ -111,7 +93,7 @@ public class PedidoController {
 
     @PutMapping(value="pedidos/{pedidoId}")
     public ResponseEntity<?> putPedido(@PathVariable String pedidoId, @RequestBody Pedido pedidoReq) {
-        Pedido pedido = pedidoRepository.findById(pedidoId).get();
+        Optional<Pedido> pedido = pedidoRepository.findById(pedidoId);
         if (pedido == null) {
             return ResponseEntity.badRequest().body("No hay ningún pedido con el código proporcionado");
         }
