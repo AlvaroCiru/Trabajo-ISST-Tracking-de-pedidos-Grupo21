@@ -10,8 +10,10 @@ import jakarta.persistence.Id;
 // import jakarta.validation.constraints.Max;
 // import jakarta.validation.constraints.NotBlank;
 // import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "Pedidos")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -22,8 +24,8 @@ public class Pedido {
     // @NotBlank
     private String titulo;
     private String descripcion;
-    private LocalDate fechaCreacion;
-    private LocalTime horaCreacion;
+    private LocalDate fecha_creacion;
+    private LocalTime hora_creacion;
     // @NotNull
     // @Max(2)
     private int estado;

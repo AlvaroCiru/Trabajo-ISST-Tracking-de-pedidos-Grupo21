@@ -8,8 +8,10 @@ import jakarta.persistence.Id;
 // import jakarta.validation.constraints.NotBlank;
 // import jakarta.validation.constraints.NotNull;
 // import jakarta.validation.constraints.Size;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "Usuarios")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -18,10 +20,9 @@ public class Usuario {
     @Id
     private int id;
     private String nombre;
-    private String apellido;
     private String email;
     private String contrasena;
     private String telefono;
-    private boolean esGestor;
+    private boolean es_gestor;
     private int empresa;
 }

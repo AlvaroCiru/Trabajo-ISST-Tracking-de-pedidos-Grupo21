@@ -8,8 +8,10 @@ import jakarta.persistence.Id;
 // import jakarta.validation.constraints.NotBlank;
 // import jakarta.validation.constraints.NotNull;
 // import jakarta.validation.constraints.Size;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "Empresas")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

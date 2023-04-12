@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.upm.dit.isst.backend.model.Empresa;
@@ -20,17 +21,18 @@ import es.upm.dit.isst.backend.repository.EmpresaRepository;
 
 
 @RestController
+@RequestMapping("/tracking/api/empresas")
 public class EmpresaController {
 
     @Autowired
     EmpresaRepository empresaRepository;
     
-    @GetMapping("/empresas")
+    @GetMapping("")
     public ResponseEntity<?> getAllEmpresas() {
         return ResponseEntity.ok().body((List<Empresa>) empresaRepository.findAll());
     }
 
-    @GetMapping("/empresas/{empresaId}")
+    @GetMapping("/{empresaId}")
     public ResponseEntity<?> getEmpresa(@PathVariable String empresaId) {
         int id = Integer.parseInt(empresaId);
         Optional<Empresa> empresa = empresaRepository.findById(id);
@@ -41,25 +43,24 @@ public class EmpresaController {
         }
     }
 
-    @PostMapping("/empresas")
+    @PostMapping("")
     public ResponseEntity<?> createEmpresa(@RequestBody Empresa empresaReq) {
         try {
             if(empresaReq == null) {
                 return ResponseEntity.badRequest().body("No ha proporcionado la empresa correctamente.");
             }
             if(empresaRepository.existsById(empresaReq.getId()))
-                return ResponseEntity.ok().body("La empresa proporcionada ya está registrada.");
+                return ResponseEntity.created(new URI("/tracking/api/empresas" + empresaReq.getId())).body("La empresa proporcionada ya está registrada.");
             empresaRepository.save(empresaReq);
-            return ResponseEntity.created(new URI("/empresas/" + empresaReq.getId())).body(empresaReq);
-            } catch (IllegalArgumentException iae) {
-                return ResponseEntity.badRequest().body(iae);
-            } catch (URISyntaxException use) {
-                return ResponseEntity.badRequest().body(use);
-            }
-        
+            return ResponseEntity.ok().body(empresaReq);
+        } catch (IllegalArgumentException iae) {
+            return ResponseEntity.badRequest().body(iae);
+        } catch (URISyntaxException use) {
+            return ResponseEntity.badRequest().body(use);
+        }   
     }
 
-    @PutMapping("/empresas/{empresaId}")
+    @PutMapping("/{empresaId}")
     public ResponseEntity<?> modifyEmpresa(@PathVariable String empresaId, @RequestBody Empresa empresaReq) {
         int idEmpresa = Integer.parseInt(empresaId);
         if(!empresaRepository.existsById(idEmpresa)) {
@@ -77,7 +78,7 @@ public class EmpresaController {
         return ResponseEntity.ok().body(empresaModificada);
     }
 
-    @DeleteMapping("/empresas/{empresaId}")
+    @DeleteMapping("/{empresaId}")
     public ResponseEntity<?> deleteEmpresa(@PathVariable String empresaId) {
         int idEmpresa = Integer.parseInt(empresaId);
         if(!empresaRepository.existsById(idEmpresa)) {

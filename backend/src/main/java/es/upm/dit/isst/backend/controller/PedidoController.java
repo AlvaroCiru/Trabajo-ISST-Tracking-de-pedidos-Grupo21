@@ -8,6 +8,7 @@ import java.util.List;
 // import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.apache.catalina.connector.Response;
 // import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.upm.dit.isst.backend.model.Pedido;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
+@RequestMapping("/tracking/api/pedidos")
 public class PedidoController {
 
     @Autowired
@@ -34,12 +37,12 @@ public class PedidoController {
     @Autowired
     EmpresaRepository empresaRepository;
 
-    @GetMapping("/pedidos")
+    @GetMapping("")
     public List<Pedido> getAllPedidos() {
         return (List<Pedido>) pedidoRepository.findAll();
     }
 
-    @GetMapping("/pedidos/{pedidoId}")
+    @GetMapping("/{pedidoId}")
     public ResponseEntity<?> getPedido(@PathVariable String pedidoId) {
         try {
             Optional<Pedido> pedido = pedidoRepository.findById(pedidoId);
@@ -52,7 +55,7 @@ public class PedidoController {
         }
     }
 
-    @PostMapping("/pedidos")
+    @PostMapping("")
     public ResponseEntity<?> createPedido(@RequestBody Pedido pedido) {
         try {
             Pedido newPedido = new Pedido();
@@ -60,7 +63,7 @@ public class PedidoController {
                 return ResponseEntity.badRequest().body("No se ha proporcionado ningún pedido");
             }
             if(pedidoRepository.findById(pedido.getCodigo()).isPresent()) {
-                return ResponseEntity.ok().body("El pedido proporcionado ya existe");
+                return ResponseEntity.badRequest().body("El pedido proporcionado ya existe");
             }
             if (pedido.getCodigo() == null || pedido.getCodigo().equals("")) {
                 return ResponseEntity.badRequest().body("El código no puede estar vacío");
@@ -73,35 +76,56 @@ public class PedidoController {
                 newPedido.setTitulo(pedido.getTitulo());
             }
             newPedido.setDescripcion(pedido.getDescripcion());
-            newPedido.setFechaCreacion(LocalDate.now());
-            newPedido.setHoraCreacion(LocalTime.now());
+            if(pedido.getFecha_creacion()==null) {
+                newPedido.setFecha_creacion(LocalDate.now());
+            } else {
+                newPedido.setFecha_creacion(pedido.getFecha_creacion());
+            }
+            if(pedido.getHora_creacion()==null) {
+                newPedido.setHora_creacion(LocalTime.now());
+            } else {
+                newPedido.setHora_creacion(pedido.getHora_creacion());
+            }
             newPedido.setEstado(0);
-            newPedido.setUsuario(pedido.getUsuario());
+            newPedido.setUsuario(0);
             newPedido.setEmpresa(pedido.getEmpresa());
             newPedido.setVehiculo(pedido.getVehiculo());
             newPedido.setOrigen(pedido.getOrigen());
             newPedido.setDestino(pedido.getDestino());
-            Pedido pedidoCreado = pedidoRepository.save(pedido);
-            return ResponseEntity.created(new URI("/pedidos/" + pedidoCreado.getCodigo())).body(pedidoCreado);
+            Pedido pedidoCreado = pedidoRepository.save(newPedido);
+            return ResponseEntity.created(new URI("/api/pedidos/" + pedidoCreado.getCodigo())).body(pedidoCreado);
         } catch (IllegalArgumentException iae) {
             return ResponseEntity.badRequest().body(iae);
         } catch (URISyntaxException use) {
             return ResponseEntity.badRequest().body(use);
         }
-        
     }
 
-    @PutMapping(value="pedidos/{pedidoId}")
-    public ResponseEntity<?> putPedido(@PathVariable String pedidoId, @RequestBody Pedido pedidoReq) {
-        Optional<Pedido> pedido = pedidoRepository.findById(pedidoId);
-        if (pedido == null) {
-            return ResponseEntity.badRequest().body("No hay ningún pedido con el código proporcionado");
+    @PutMapping("/{pedidoId}")
+    public ResponseEntity<?> modifyEmpresa(@PathVariable String pedidoId, @RequestBody Pedido pedidoReq) {
+        String idPedido = pedidoId;
+        if(!pedidoRepository.existsById(idPedido)) {
+            return ResponseEntity.badRequest().body("La empresa que quiere modificar no está registrada.");
         }
-        
-        return new ResponseEntity<>(pedidoReq, HttpStatus.OK);
+        if(!idPedido.equals(pedidoReq.getCodigo())) {
+            return ResponseEntity.badRequest().body("empresaId and empresaReq.getId() mismatch");
+        }
+        Pedido pedidoModificado = pedidoRepository.findById(idPedido).get();
+        pedidoModificado.setTitulo(pedidoReq.getTitulo());
+        pedidoModificado.setDescripcion(pedidoReq.getDescripcion());
+        pedidoModificado.setFecha_creacion(pedidoReq.getFecha_creacion());
+        pedidoModificado.setHora_creacion(pedidoModificado.getHora_creacion());
+        pedidoModificado.setEstado(pedidoReq.getEstado());
+        pedidoModificado.setVehiculo(pedidoReq.getVehiculo());
+        pedidoModificado.setUsuario(pedidoReq.getUsuario());
+        pedidoModificado.setEmpresa(pedidoReq.getEmpresa());
+        pedidoModificado.setOrigen(pedidoReq.getEmpresa());
+        pedidoModificado.setDestino(pedidoReq.getDestino());
+        pedidoRepository.save(pedidoModificado);
+        return ResponseEntity.ok().body(pedidoModificado);
     }
     
-    @DeleteMapping(value="pedidos/{pedidoId}")
+    @DeleteMapping("/{pedidoId}")
     public ResponseEntity<?> deletePedido(@PathVariable String pedidoId) {
         Optional<Pedido> pedido = pedidoRepository.findById(pedidoId);
         if(!pedido.isPresent()) {
@@ -109,6 +133,12 @@ public class PedidoController {
         }
         pedidoRepository.deleteById(pedidoId);
         return ResponseEntity.ok().body(pedido.get());
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<?> deleteAllPedidos() {
+        pedidoRepository.deleteAll();
+        return ResponseEntity.ok().body("Todos los pedidos han sido eliminados");
     }
 
 }

@@ -6,8 +6,10 @@ import java.time.LocalTime;
 import lombok.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "Trazas")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -17,8 +19,8 @@ public class Traza {
     private int id;
     private double latitud;
     private double longitud;
-    private LocalDate fechaCreacion;
-    private LocalTime horaCreacion;
-    private String pedidoId;
-    private int vehiculoId;
+    private LocalDate fecha_creacion;
+    private LocalTime hora_creacion;
+    private String pedido_id;
+    private int vehiculo_id;
 }
