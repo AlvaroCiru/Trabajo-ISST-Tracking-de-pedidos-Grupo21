@@ -17,10 +17,10 @@ export default function UnPedido(props){
 
     let rutaVuelta = ""
 
-    if (rutaActual.includes("/comprador/")) {
-        rutaVuelta = "/comprador/"
-    } else if (rutaActual.includes("/gestor/")) {
-        rutaVuelta = "/gestor/"
+    if (rutaActual.includes("/comprador")) {
+        rutaVuelta = "/comprador"
+    } else if (rutaActual.includes("/gestor")) {
+        rutaVuelta = "/gestor"
     }
     
     return(

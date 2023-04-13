@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./../../style/Comprador.css"
+import "./../../style/Gestor.css"
 import Pedido from "../Pedido";
-import { Link } from "react-router-dom";
 
 
 export default function Gestor(props){
     
-    const ruta='/gestor/'
     const [pedidos, setPedidos] = useState(props.pedidos);
 
     const empresas = props.pedidos.reduce(
@@ -17,8 +15,6 @@ export default function Gestor(props){
             return previousValue;
     },[]);
 
-    console.log(empresas)
-
     const filtraempresa = (emp) => {
 
         const resultado = props.pedidos;
@@ -27,16 +23,18 @@ export default function Gestor(props){
         el.empresa.toString().toLowerCase().includes(emp.toString().toLowerCase()));
     }
 
-    console.log(filtraempresa("amazon"))
-
+    useEffect(()=> {
+        setPedidos(filtraempresa("ebay"))
+    })
 
     return(
         <div>
             <h2 className="titulo">Página del Gestor</h2>
-            <div className="contenidocomprador">
-                <div className="container-pedidos">
-                    <h3 className="mispedidos">Pedidos Operativos</h3>
-                    <div className="elementopedidos">
+            <div className="contenidogestor">
+                <div className="container-pedidosgestor">
+
+                    <div className="elementopedidosgestor">
+                        <h3 className="mispedidos">Pedidos Operativos de la empresa : {empresas[0]}</h3>
                         {pedidos.map((pedido, index)=>
                             <div className="tarjetapedido">
                                 <Pedido
@@ -49,8 +47,10 @@ export default function Gestor(props){
                             </div>
                         )}
                     </div>
+                    <div className="elementopedidosgestor">
+                        <div className="historico">Ver Histórico de Pedidos</div>
+                    </div>
                 </div>
-                <div className="historico">Ver Histórico de Pedidos</div>
             </div>
         </div>
     )

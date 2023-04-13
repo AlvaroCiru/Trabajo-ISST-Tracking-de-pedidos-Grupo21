@@ -1,0 +1,65 @@
+.comprador {
+    display: flex;
+    flex-direction: column;
+}
+
+.titulo {
+    text-align: center;
+}
+
+.contenidogestor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.mispedidos {
+    font-size:x-large;
+}
+
+.container-pedidosgestor {
+    display: flex;
+    flex-direction: row;
+    margin-left: 50px;
+    padding: 10px;
+    justify-content: space-around;
+}
+
+.elementopedidosgestor {
+    display: flex;
+    flex-direction: column;
+}
+
+.textarea {
+    border: 3px solid black;
+    border-radius: 15px;
+    padding: 15px;
+    width: 300px;
+    height: 100px;
+}
+
+.historico {
+    display: flex;
+    border: 3px solid black;
+    border-radius: 15px;
+    width: 350px;
+    height: 170px;
+    justify-content: center;
+    justify-self: center;
+    margin-right: 200px;
+    margin-top: 100px;
+    justify-content: center;
+    align-items: center;
+    font-size: x-large;
+}
+
+.historico:hover {
+    background-color: rgb(209, 209, 209);
+}
+
+.logoempresa{
+    width: 200px;
+    height: auto;
+    padding: 20px;
+}

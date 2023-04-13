@@ -66,11 +66,12 @@
 
 .botoncomprador {
     border: 2px solid black;
+    text-align: center;
     border-radius: 7px;
     padding: 5px;
     margin: 5px;
     margin-right: 10px;
-    width: 100px;
+    width: 120px;
     background-color: white;
     color: black;
     text-decoration: none;
@@ -84,6 +85,7 @@
 
 .botongestor {
     border: 2px solid black;
+    text-align: center;
     border-radius: 7px;
     padding: 5px;
     margin: 5px;
