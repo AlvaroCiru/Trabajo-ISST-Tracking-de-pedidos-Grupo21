@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.upm.dit.isst.backend.model.Empresa;
 import es.upm.dit.isst.backend.model.Usuario;
+import es.upm.dit.isst.backend.repository.EmpresaRepository;
 import es.upm.dit.isst.backend.repository.UsuarioRepository;
 
 @RestController
@@ -23,6 +26,9 @@ public class UsuarioController {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    EmpresaRepository empresaRepository;
     
     @GetMapping("")
     public ResponseEntity<?> getAllUsuarios() {
@@ -35,34 +41,85 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuario);
     }
 
-    @PostMapping("")
-    public ResponseEntity<?> createUsuario(@RequestBody Usuario usuarioReq) {
+    @PostMapping("/compradores")
+    public ResponseEntity<?> createComprador(@RequestBody Usuario usuarioReq) {
         
         try {
             Usuario newUsuario = new Usuario();
             if (usuarioReq == null) {
                 return ResponseEntity.badRequest().body("No se ha proporcionado ningún usuarioReq");
             }
-            if(usuarioRepository.findById(usuarioReq.getId()).isPresent()) {
-                return ResponseEntity.badRequest().body("El usuarioReq proporcionado ya existe");
+            
+            if(usuarioReq.getEmail() == null || usuarioReq.getEmail().equalsIgnoreCase("") || 
+                usuarioReq.getNombre() == null || usuarioReq.getNombre().equalsIgnoreCase("") ||
+                usuarioReq.getContrasena() == null || usuarioReq.getContrasena().equalsIgnoreCase("") ||
+                usuarioReq.getTelefono() == null || usuarioReq.getTelefono().equalsIgnoreCase("")) {
+                return ResponseEntity.badRequest().body("Incorrect arguments");
             }
-            if (usuarioReq.getId() == 0) {
-                return ResponseEntity.badRequest().body("El código no puede estar vacío");
-            } else {
-                newUsuario.setId(usuarioReq.getId());
+
+            // || !usuarioRepository.findByNombre(usuarioReq.getNombre()).isEmpty() ||
+            // !usuarioRepository.findByTelefono(usuarioReq.getTelefono()).isEmpty()
+
+            if(!usuarioRepository.findByEmail(usuarioReq.getEmail()).isEmpty()) {
+                return ResponseEntity.badRequest().body("User provided already exists");
             }
-            if (usuarioReq.getNombre() == null || usuarioReq.getNombre().equals("")) {
-                return ResponseEntity.badRequest().body("El título no puede estar vacío");
-            } else {
-                newUsuario.setNombre(usuarioReq.getNombre());
-            }
+            
+            newUsuario.setNombre(usuarioReq.getNombre());
             newUsuario.setEmail(usuarioReq.getEmail());
             newUsuario.setContrasena(usuarioReq.getContrasena());
             newUsuario.setTelefono(usuarioReq.getTelefono());
-            newUsuario.setEs_gestor(usuarioReq.isEs_gestor() ? true : false);
-            newUsuario.setEmpresa(usuarioReq.isEs_gestor() ? usuarioReq.getEmpresa() : 0);
+            newUsuario.setEs_gestor(false);
+            newUsuario.setEmpresa(null);
+
             usuarioRepository.save(newUsuario);
-            return ResponseEntity.created(new URI("/tracking/api/usuarios/" + usuarioReq.getId())).body(newUsuario);
+            return ResponseEntity.created(new URI("/easytrack/api/usuarios/" + usuarioReq.getId())).body(newUsuario);
+        } catch (IllegalArgumentException iae) {
+            return ResponseEntity.badRequest().body("Illegal Argument Exception");
+        } catch (DataIntegrityViolationException dive) {
+            return ResponseEntity.badRequest().body("Data Integrity Violation Exception");
+        } catch (URISyntaxException use) {
+            return ResponseEntity.badRequest().body("URI Syntax Exception");
+        }
+    }
+
+    @PostMapping("/gestores")
+    public ResponseEntity<?> createGestor(@RequestBody Usuario usuarioReq) {
+        
+        try {
+            Usuario newUsuario = new Usuario();
+            if (usuarioReq == null) {
+                return ResponseEntity.badRequest().body("No se ha proporcionado ningún usuarioReq");
+            }
+            
+            if(usuarioReq.getEmail() == null || usuarioReq.getEmail().equalsIgnoreCase("") || 
+                usuarioReq.getNombre() == null || usuarioReq.getNombre().equalsIgnoreCase("") ||
+                usuarioReq.getContrasena() == null || usuarioReq.getContrasena().equalsIgnoreCase("") ||
+                usuarioReq.getTelefono() == null || usuarioReq.getTelefono().equalsIgnoreCase("")) {
+                return ResponseEntity.badRequest().body("Incorrect arguments");
+            }
+
+            if(!usuarioRepository.findByEmail(usuarioReq.getEmail()).isEmpty()) {
+                return ResponseEntity.badRequest().body("User provided already exists");
+            }
+            
+            newUsuario.setNombre(usuarioReq.getNombre());
+            newUsuario.setEmail(usuarioReq.getEmail());
+            newUsuario.setContrasena(usuarioReq.getContrasena());
+            newUsuario.setTelefono(usuarioReq.getTelefono());
+            newUsuario.setEs_gestor(true);
+
+            if(usuarioReq.getEmpresa() == null) {
+                return ResponseEntity.badRequest().body("Los gestores deben tener una empresa asociada");
+            }
+
+            if(empresaRepository.findByNombre(usuarioReq.getEmpresa().getNombre()).isEmpty()) {
+                return ResponseEntity.badRequest().body("Los gestores deben estar asociados a una empresa existente.");
+            } else {
+                newUsuario.setEmpresa(empresaRepository.findByNombre(usuarioReq.getEmpresa().getNombre()).get(0));
+            }
+
+            usuarioRepository.save(newUsuario);
+            return ResponseEntity.created(new URI("/easytrack/api/usuarios/" + usuarioReq.getId())).body(newUsuario);
         } catch (IllegalArgumentException iae) {
             return ResponseEntity.badRequest().body(iae);
         } catch (URISyntaxException use) {

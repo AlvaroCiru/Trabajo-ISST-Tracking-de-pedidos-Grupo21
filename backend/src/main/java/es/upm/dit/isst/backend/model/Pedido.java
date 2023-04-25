@@ -3,9 +3,22 @@ package es.upm.dit.isst.backend.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import javax.print.attribute.standard.OrientationRequested;
+
+import org.apache.commons.lang3.builder.EqualsExclude;
+import org.hibernate.annotations.ManyToAny;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import es.upm.dit.isst.backend.enums.EstadoPedido;
 import lombok.*;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 // import jakarta.persistence.ManyToOne;
 // import jakarta.validation.constraints.Max;
 // import jakarta.validation.constraints.NotBlank;
@@ -18,24 +31,47 @@ import jakarta.persistence.Table;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Pedido {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @EqualsAndHashCode.Include
     private String codigo;
-    // @NotBlank
+    
+    @Column(name = "titulo", nullable = false)
     private String titulo;
+
+    @Column(name = "descripcion", nullable = true)
     private String descripcion;
+
+    @Column(name = "fecha_crecion", nullable = false)
     private LocalDate fecha_creacion;
+
+    @Column(name = "hora_creacion", nullable = false)
     private LocalTime hora_creacion;
-    // @NotNull
-    // @Max(2)
-    private int estado;
-    // @NotNull
-    private int vehiculo;
-    private int usuario;
-    // @NotNull
-    private int empresa;
-    // @NotNull
-    private int origen;
-    // @NotNull
-    private int destino;
+
+    @Column(name = "estado", nullable = false)
+    private EstadoPedido estado;
+
+    @ManyToOne
+    @JoinColumn(name = "vehiculo_id", nullable = false)
+    private Vehiculo vehiculo;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = true)
+    @JsonIgnore
+    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false)
+    private Empresa empresa;
+
+    @ManyToOne
+    @JoinColumn(name = "origen_id", nullable = false)
+    private Direccion origen;
+
+    @ManyToOne
+    @JoinColumn(name = "destino_id", nullable = false)
+    private Direccion destino;
 }

@@ -74,8 +74,8 @@ public class TrazaController {
         trazaModificada.setLongitud(trazaReq.getLongitud());
         trazaModificada.setFecha_creacion(trazaReq.getFecha_creacion());
         trazaModificada.setHora_creacion(trazaReq.getHora_creacion());
-        trazaModificada.setPedido_id(trazaReq.getPedido_id());
-        trazaModificada.setVehiculo_id(trazaReq.getVehiculo_id());
+        trazaModificada.setPedido(trazaReq.getPedido());
+        trazaModificada.setVehiculo(trazaReq.getVehiculo());
         trazaRepository.save(trazaModificada);
         return ResponseEntity.ok().body(trazaModificada);
     }

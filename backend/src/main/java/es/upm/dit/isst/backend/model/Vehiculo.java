@@ -1,7 +1,13 @@
 package es.upm.dit.isst.backend.model;
 
 import lombok.*;
+
+import org.apache.commons.lang3.builder.EqualsExclude;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -11,11 +17,21 @@ import jakarta.persistence.Table;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Vehiculo {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Column(name = "matricula", nullable = false)
+    @EqualsAndHashCode.Include
     private String matricula;
+
+    @Column(name = "modelo", nullable = true)
     private String modelo;
-    private String telefono_vehiculo;
+
+    @Column(name = "telefono", nullable = false)
+    private String telefono;
 }
 

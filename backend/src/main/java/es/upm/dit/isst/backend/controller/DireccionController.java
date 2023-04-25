@@ -72,7 +72,9 @@ public class DireccionController {
         Direccion direccionModificada = direccionRepository.findById(idDireccion).get();
         direccionModificada.setLatitud(direccionReq.getLatitud());
         direccionModificada.setLongitud(direccionReq.getLongitud());
-        direccionModificada.setDireccion(direccionReq.getDireccion());
+        direccionModificada.setProvincia(direccionReq.getProvincia());
+        direccionModificada.setCiudad(direccionReq.getCiudad());
+        direccionModificada.setDomicilio(direccionReq.getDomicilio());
         direccionModificada.setPostal_code(direccionReq.getPostal_code());
         direccionRepository.save(direccionModificada);
         return ResponseEntity.ok().body(direccionModificada);

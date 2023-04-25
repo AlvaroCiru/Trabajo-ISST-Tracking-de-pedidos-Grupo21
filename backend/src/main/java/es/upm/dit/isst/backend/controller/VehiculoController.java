@@ -73,7 +73,7 @@ public class VehiculoController {
         Vehiculo vehiculoModificado = vehiculoRepository.findById(idVehiculo).get();
         vehiculoModificado.setMatricula(vehiculoReq.getMatricula());
         vehiculoModificado.setModelo(vehiculoReq.getModelo());
-        vehiculoModificado.setTelefono_vehiculo(vehiculoReq.getTelefono_vehiculo());
+        vehiculoModificado.setTelefono(vehiculoReq.getTelefono());
         vehiculoRepository.save(vehiculoModificado);
         return ResponseEntity.ok().body(vehiculoModificado);
     }

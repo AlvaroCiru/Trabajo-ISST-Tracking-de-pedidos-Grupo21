@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.upm.dit.isst.backend.enums.EstadoPedido;
 import es.upm.dit.isst.backend.model.Pedido;
 import es.upm.dit.isst.backend.repository.EmpresaRepository;
 import es.upm.dit.isst.backend.repository.PedidoRepository;
@@ -55,6 +56,8 @@ public class PedidoController {
         }
     }
 
+    
+
     @PostMapping("")
     public ResponseEntity<?> createPedido(@RequestBody Pedido pedido) {
         try {
@@ -86,8 +89,8 @@ public class PedidoController {
             } else {
                 newPedido.setHora_creacion(pedido.getHora_creacion());
             }
-            newPedido.setEstado(0);
-            newPedido.setUsuario(0);
+            newPedido.setEstado(EstadoPedido.EN_PREPARACION);
+            newPedido.setUsuario(null);
             newPedido.setEmpresa(pedido.getEmpresa());
             newPedido.setVehiculo(pedido.getVehiculo());
             newPedido.setOrigen(pedido.getOrigen());
@@ -119,7 +122,7 @@ public class PedidoController {
         pedidoModificado.setVehiculo(pedidoReq.getVehiculo());
         pedidoModificado.setUsuario(pedidoReq.getUsuario());
         pedidoModificado.setEmpresa(pedidoReq.getEmpresa());
-        pedidoModificado.setOrigen(pedidoReq.getEmpresa());
+        pedidoModificado.setOrigen(pedidoReq.getOrigen());
         pedidoModificado.setDestino(pedidoReq.getDestino());
         pedidoRepository.save(pedidoModificado);
         return ResponseEntity.ok().body(pedidoModificado);
