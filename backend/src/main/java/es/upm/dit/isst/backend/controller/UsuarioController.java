@@ -57,11 +57,16 @@ public class UsuarioController {
                 return ResponseEntity.badRequest().body("Incorrect arguments");
             }
 
-            // || !usuarioRepository.findByNombre(usuarioReq.getNombre()).isEmpty() ||
-            // !usuarioRepository.findByTelefono(usuarioReq.getTelefono()).isEmpty()
-
             if(!usuarioRepository.findByEmail(usuarioReq.getEmail()).isEmpty()) {
-                return ResponseEntity.badRequest().body("User provided already exists");
+                return ResponseEntity.badRequest().body("Ese email ya está en uso");
+            }
+
+            if(!usuarioRepository.findByNombre(usuarioReq.getNombre()).isEmpty()) {
+                return ResponseEntity.badRequest().body("Ese nombre de usuario ya está en uso");
+            }
+
+            if(!usuarioRepository.findByTelefono(usuarioReq.getTelefono()).isEmpty()) {
+                return ResponseEntity.badRequest().body("Ese teléfono de usuario ya está en uso");
             }
             
             newUsuario.setNombre(usuarioReq.getNombre());
@@ -76,7 +81,7 @@ public class UsuarioController {
         } catch (IllegalArgumentException iae) {
             return ResponseEntity.badRequest().body("Illegal Argument Exception");
         } catch (DataIntegrityViolationException dive) {
-            return ResponseEntity.badRequest().body("Data Integrity Violation Exception");
+            return ResponseEntity.badRequest().body("El nombre, el email o el teléfono que ha proporcionado ya están asociados a otro usuario");
         } catch (URISyntaxException use) {
             return ResponseEntity.badRequest().body("URI Syntax Exception");
         }

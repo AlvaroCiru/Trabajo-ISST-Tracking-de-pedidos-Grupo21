@@ -15,17 +15,18 @@ import jakarta.persistence.Table;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Direccion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @EqualsAndHashCode.Exclude
     private int id;
 
     @Column(name = "latitud", nullable = false)
+    @EqualsAndHashCode.Include
     private double latitud;
 
     @Column(name = "longitud", nullable = false)
+    @EqualsAndHashCode.Include
     private double longitud;
 
     @Column(name = "provincia", nullable = true)
@@ -34,7 +35,7 @@ public class Direccion {
     @Column(name = "ciudad", nullable = true)
     private String ciudad;
 
-    @Column(name = "domicilio", nullable = true)
+    @Column(name = "domicilio", nullable = false, unique = true)
     private String domicilio;
 
     @Column(name = "postal_code", nullable = true)

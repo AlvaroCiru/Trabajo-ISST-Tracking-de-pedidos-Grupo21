@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.upm.dit.isst.backend.model.Direccion;
 import es.upm.dit.isst.backend.repository.DireccionRepository;
+import es.upm.dit.isst.backend.service.DireccionService;
 
 @RestController
 @RequestMapping("/tracking/api/direcciones")
@@ -25,6 +26,9 @@ public class DireccionController {
 
     @Autowired
     DireccionRepository direccionRepository;
+
+    @Autowired
+    DireccionService direccionService;
     
     @GetMapping("")
     public ResponseEntity<?> getAllDireccion() {
@@ -52,8 +56,9 @@ public class DireccionController {
             if(direccionRepository.existsById(direccionReq.getId())) 
                 return ResponseEntity.badRequest().body("La dirección ya está registrada");    
 
-            direccionRepository.save(direccionReq);
-            return ResponseEntity.created(new URI("/tracking/api/direcciones/" + direccionReq.getId())).body(direccionReq);
+            Direccion newDireccion = direccionService.createDireccion(direccionReq);
+            // direccionRepository.save(direccionReq);
+            return ResponseEntity.created(new URI("/tracking/api/direcciones/" + direccionReq.getId())).body(newDireccion);
         } catch(IllegalArgumentException iae) {
             return ResponseEntity.badRequest().body(iae);
         } catch(URISyntaxException use) {

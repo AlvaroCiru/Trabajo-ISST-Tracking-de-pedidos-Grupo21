@@ -8,4 +8,6 @@ import es.upm.dit.isst.backend.model.Empresa;
 
 public interface EmpresaRepository extends CrudRepository<Empresa, Integer>{
     List<Empresa> findByNombre(String nombre);
+    List<Empresa> findByEmail(String email);
+    List<Empresa> findByTelefono(String telefono);
 }
