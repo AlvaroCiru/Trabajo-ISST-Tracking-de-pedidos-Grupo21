@@ -1,6 +1,7 @@
 package es.upm.dit.isst.backend.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,6 @@ public class DireccionServiceImpl implements DireccionService{
 
     @Override
     public Direccion createDireccion(Direccion direccionReq) {
-        checkDireccion(direccionReq);
         Direccion newDireccion = new Direccion();
         newDireccion.setLatitud(direccionReq.getLatitud());
         newDireccion.setLongitud(direccionReq.getLongitud());
@@ -36,13 +36,22 @@ public class DireccionServiceImpl implements DireccionService{
         newDireccion.setCiudad(direccionReq.getCiudad());
         newDireccion.setDomicilio(direccionReq.getDomicilio());
         newDireccion.setPostal_code(direccionReq.getPostal_code());
-        direccionRepository.save(newDireccion);
-        return newDireccion;
+        Direccion direccionCreada = direccionRepository.save(newDireccion);
+        return direccionCreada;
     }
 
     @Override
-    public void checkDireccion(Direccion direccion) {
-        // throw new IllegalArgumentException();
+    public String checkDireccion(Direccion direccionReq) {
+        if(direccionReq == null) {
+            return "No se ha proporcionado ninguna dirección.";
+        }
+
+        if(direccionReq.getLatitud() == 0 || direccionReq.getLongitud() == 0 ||
+            direccionReq.getDomicilio() == null || direccionReq.getDomicilio().isEmpty()) {
+            return "Faltan argumentos, debe proporcionar: latitud (float), longitud (float) y domicilio (string)";
+        }
+        
+        return null;
     }
     
 }

@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.upm.dit.isst.backend.enums.EstadoPedido;
 import es.upm.dit.isst.backend.model.Traza;
 import es.upm.dit.isst.backend.repository.TrazaRepository;
+import es.upm.dit.isst.backend.service.PedidoService;
 
 @RestController
 @RequestMapping("/tracking/api/trazas")
@@ -25,6 +27,9 @@ public class TrazaController {
 
     @Autowired
     TrazaRepository trazaRepository;
+
+    @Autowired
+    PedidoService pedidoService;
 
 
     @GetMapping("")
@@ -52,6 +57,11 @@ public class TrazaController {
 
             if(trazaRepository.existsById(trazaReq.getId())) 
                 return ResponseEntity.badRequest().body("La traza ya está registrada");
+            
+            if(trazaRepository.findByPedido(trazaReq.getPedido()).isEmpty()) {
+                pedidoService.cambiarEstado(trazaReq.getPedido().getCodigo(), EstadoPedido.EN_REPARTO);
+            }
+            
             trazaRepository.save(trazaReq);
             return ResponseEntity.created(new URI("/tracking/api/trazas/" + trazaReq.getId())).body(trazaReq);
         } catch(IllegalArgumentException iae) {

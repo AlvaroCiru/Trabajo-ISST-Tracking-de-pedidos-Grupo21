@@ -18,14 +18,12 @@ import jakarta.persistence.Table;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Vehiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(name = "matricula", nullable = false)
-    @EqualsAndHashCode.Include
     private String matricula;
 
     @Column(name = "modelo", nullable = true)
@@ -33,5 +31,38 @@ public class Vehiculo {
 
     @Column(name = "telefono", nullable = false)
     private String telefono;
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
+        result = prime * result + ((telefono == null) ? 0 : telefono.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Vehiculo other = (Vehiculo) obj;
+        if (matricula == null) {
+            if (other.matricula != null)
+                return false;
+        } else if (!matricula.equals(other.matricula))
+            return false;
+        if (telefono == null) {
+            if (other.telefono != null)
+                return false;
+        } else if (!telefono.equals(other.telefono))
+            return false;
+        return true;
+    }
+
+    
 }
 

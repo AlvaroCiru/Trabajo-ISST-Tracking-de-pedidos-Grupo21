@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.upm.dit.isst.backend.model.Empresa;
 import es.upm.dit.isst.backend.model.Usuario;
 import es.upm.dit.isst.backend.repository.EmpresaRepository;
 import es.upm.dit.isst.backend.repository.UsuarioRepository;

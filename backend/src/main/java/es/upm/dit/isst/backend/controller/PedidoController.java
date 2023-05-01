@@ -22,9 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.upm.dit.isst.backend.enums.EstadoPedido;
+import es.upm.dit.isst.backend.model.Empresa;
 import es.upm.dit.isst.backend.model.Pedido;
+import es.upm.dit.isst.backend.model.Usuario;
 import es.upm.dit.isst.backend.repository.EmpresaRepository;
 import es.upm.dit.isst.backend.repository.PedidoRepository;
+import es.upm.dit.isst.backend.repository.UsuarioRepository;
+import es.upm.dit.isst.backend.service.PedidoService;
+
 import org.springframework.web.bind.annotation.PutMapping;
 
 
@@ -34,6 +39,12 @@ public class PedidoController {
 
     @Autowired
     PedidoRepository pedidoRepository;
+
+    @Autowired
+    PedidoService pedidoService;
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @Autowired
     EmpresaRepository empresaRepository;
@@ -56,52 +67,65 @@ public class PedidoController {
         }
     }
 
-     
+    @GetMapping("/compradores/{compradorId}")
+    public ResponseEntity<?> getPedidosByComprador(@PathVariable String compradorId) {
+        try {
+            Optional<Usuario> comprador = usuarioRepository.findById(Integer.parseInt(compradorId));
+
+            if(comprador.isPresent()) {
+                return ResponseEntity.badRequest().body("El comprador no existe");
+            }
+
+            return ResponseEntity.ok().body(pedidoRepository.findByUsuario(comprador.get()));
+        } catch(RuntimeException exc) {
+            return ResponseEntity.badRequest().body(exc);
+        }
+    }
+
+    @GetMapping("/gestores/{gestorId}")
+    public ResponseEntity<?> getPedidosByEmpresa(@PathVariable String gestorId) {
+        try {
+
+            if(!usuarioRepository.findById(Integer.parseInt(gestorId)).isPresent()) {
+                return ResponseEntity.badRequest().body("Ese gestor no existe");
+            }
+
+            Usuario gestor = usuarioRepository.findById(Integer.parseInt(gestorId)).get();
+
+            if(!gestor.isEs_gestor()) {
+                return ResponseEntity.badRequest().body("Este usuario no es gestor");
+            }
+
+            Empresa empresa = gestor.getEmpresa();
+
+            return ResponseEntity.ok().body(pedidoRepository.findByEmpresa(empresa));
+        } catch(RuntimeException exc) {
+            return ResponseEntity.badRequest().body(exc);
+        }
+    }
 
     @PostMapping("")
-    public ResponseEntity<?> createPedido(@RequestBody Pedido pedido) {
+    public ResponseEntity<?> createPedido(@RequestBody Pedido pedidoReq) {
         try {
-            Pedido newPedido = new Pedido();
-            if (pedido == null) {
-                return ResponseEntity.badRequest().body("No se ha proporcionado ningún pedido");
-            }
-            if(pedidoRepository.findById(pedido.getCodigo()).isPresent()) {
-                return ResponseEntity.badRequest().body("El pedido proporcionado ya existe");
-            }
-            if (pedido.getCodigo() == null || pedido.getCodigo().equals("")) {
-                return ResponseEntity.badRequest().body("El código no puede estar vacío");
-            } else {
-                newPedido.setCodigo(pedido.getCodigo());
-            }
-            if (pedido.getTitulo() == null || pedido.getTitulo().equals("")) {
-                return ResponseEntity.badRequest().body("El título no puede estar vacío");
-            } else {
-                newPedido.setTitulo(pedido.getTitulo());
-            }
-            newPedido.setDescripcion(pedido.getDescripcion());
-            if(pedido.getFecha_creacion()==null) {
-                newPedido.setFecha_creacion(LocalDate.now());
-            } else {
-                newPedido.setFecha_creacion(pedido.getFecha_creacion());
-            }
-            if(pedido.getHora_creacion()==null) {
-                newPedido.setHora_creacion(LocalTime.now());
-            } else {
-                newPedido.setHora_creacion(pedido.getHora_creacion());
-            }
-            newPedido.setEstado(EstadoPedido.EN_PREPARACION);
-            newPedido.setUsuario(null);
-            newPedido.setEmpresa(pedido.getEmpresa());
-            newPedido.setVehiculo(pedido.getVehiculo());
-            newPedido.setOrigen(pedido.getOrigen());
-            newPedido.setDestino(pedido.getDestino());
-            Pedido pedidoCreado = pedidoRepository.save(newPedido);
+            Pedido pedidoCreado = pedidoService.createPedido(pedidoReq);
             return ResponseEntity.created(new URI("/api/pedidos/" + pedidoCreado.getCodigo())).body(pedidoCreado);
         } catch (IllegalArgumentException iae) {
-            return ResponseEntity.badRequest().body(iae);
+            return ResponseEntity.badRequest().body(iae.getMessage());
         } catch (URISyntaxException use) {
-            return ResponseEntity.badRequest().body(use);
+            return ResponseEntity.badRequest().body(use.getMessage());
         }
+    }
+
+    @PutMapping("/{pedidoId}/deliver")
+    public ResponseEntity<?> iniciarReparto(@PathVariable String pedidoId) {
+        Pedido pedidoAct = pedidoService.cambiarEstado(pedidoId, EstadoPedido.EN_REPARTO);
+        return ResponseEntity.ok().body(pedidoAct);
+    }
+
+    @PutMapping("/{pedidoId}/finish")
+    public ResponseEntity<?> finalizarPedido(@PathVariable String pedidoId) {
+        Pedido pedidoAct = pedidoService.cambiarEstado(pedidoId, EstadoPedido.FINALIZADO);
+        return ResponseEntity.ok().body(pedidoAct);
     }
 
     @PutMapping("/{pedidoId}")

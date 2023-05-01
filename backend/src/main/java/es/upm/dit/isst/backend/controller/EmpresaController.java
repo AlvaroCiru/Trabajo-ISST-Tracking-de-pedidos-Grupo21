@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.upm.dit.isst.backend.model.Direccion;
 import es.upm.dit.isst.backend.model.Empresa;
-import es.upm.dit.isst.backend.repository.DireccionRepository;
 import es.upm.dit.isst.backend.repository.EmpresaRepository;
 import es.upm.dit.isst.backend.service.DireccionService;
 import es.upm.dit.isst.backend.service.EmpresaService;
@@ -68,39 +66,13 @@ public class EmpresaController {
                     return ResponseEntity.badRequest().body("Los atributos de la empresa proporcionada son incorrectos");
             }
 
-            if(!empresaRepository.findByEmail(empresaReq.getEmail()).isEmpty()) {
-                return ResponseEntity.badRequest().body("Ese email ya está en uso");
-            }
-
-            if(!empresaRepository.findByNombre(empresaReq.getNombre()).isEmpty()) {
-                return ResponseEntity.badRequest().body("Ese nombre de usuario ya está en uso");
-            }
-
-            if(!empresaRepository.findByTelefono(empresaReq.getTelefono()).isEmpty()) {
-                return ResponseEntity.badRequest().body("Ese teléfono de usuario ya está en uso");
-            }
-
-            Empresa newEmpresa = new Empresa();
-            newEmpresa.setNombre(empresaReq.getNombre());
-            newEmpresa.setEmail(empresaReq.getEmail());
-            newEmpresa.setTelefono(empresaReq.getTelefono());
-
-            Direccion direccionEmpresa = direccionService.getDireccion(empresaReq.getDireccion());
-            if(direccionEmpresa == null) {
-                // Direccion newDireccion = direccionService.createDireccion(empresaReq.getDireccion());
-                newEmpresa.setDireccion(empresaReq.getDireccion());
-            } else {
-                newEmpresa.setDireccion(direccionEmpresa);
-            }
-
-            Empresa empresaCreada = empresaRepository.save(newEmpresa);
-
-            return ResponseEntity.created(new URI("/easytrack/api/empresas/" + newEmpresa.getId())).body(empresaCreada);
+            Empresa empresaCreada = empresaService.createEmpresa(empresaReq);
+            return ResponseEntity.created(new URI("/easytrack/api/empresas/" + empresaCreada.getId())).body(empresaCreada);
         } catch (IllegalArgumentException iae) {
             return ResponseEntity.badRequest().body(iae.getMessage());
         } catch (URISyntaxException use) {
-            return ResponseEntity.badRequest().body(use);
-        }   
+            return ResponseEntity.badRequest().body(use.getMessage());
+        }
     }
 
     @PostMapping("/prueba")

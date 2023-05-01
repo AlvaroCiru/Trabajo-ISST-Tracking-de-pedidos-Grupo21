@@ -2,6 +2,7 @@ package es.upm.dit.isst.backend.service.impl;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.upm.dit.isst.backend.model.Direccion;
@@ -14,10 +15,13 @@ import es.upm.dit.isst.backend.service.EmpresaService;
 @Service
 public class EmpresaServiceImpl implements EmpresaService{
 
+    @Autowired
     DireccionRepository direccionRepository;
 
+    @Autowired
     DireccionService direccionService;
 
+    @Autowired
     EmpresaRepository empresaRepository;
 
     @Override
@@ -37,8 +41,33 @@ public class EmpresaServiceImpl implements EmpresaService{
 
     @Override
     public Empresa createEmpresa(Empresa empresaReq) {
-        Direccion direccionExistente = direccionService.getDireccion(empresaReq.getDireccion());
-        return null;
+        if(!empresaRepository.findByEmail(empresaReq.getEmail()).isEmpty()) {
+            throw new IllegalArgumentException("Ya hay una empresa con ese Email");
+        }
+
+        if(!empresaRepository.findByNombre(empresaReq.getNombre()).isEmpty()) {
+            throw new IllegalArgumentException("Ya hay una empresa con ese Nombre");
+        }
+
+        if(!empresaRepository.findByTelefono(empresaReq.getTelefono()).isEmpty()) {
+            throw new IllegalArgumentException("Ya hay una empresa con ese Teléfono");
+        }
+
+        Empresa newEmpresa = new Empresa();
+        newEmpresa.setNombre(empresaReq.getNombre());
+        newEmpresa.setEmail(empresaReq.getEmail());
+        newEmpresa.setTelefono(empresaReq.getTelefono());
+
+        Direccion direccionEmpresa = direccionService.getDireccion(empresaReq.getDireccion());
+        if(direccionEmpresa == null) {
+            Direccion newDireccion = direccionService.createDireccion(empresaReq.getDireccion());
+            newEmpresa.setDireccion(newDireccion);
+        } else {
+            newEmpresa.setDireccion(direccionEmpresa);
+        }
+
+        Empresa empresaCreada = empresaRepository.save(newEmpresa);
+        return empresaCreada;
     }
     
 }
