@@ -67,7 +67,6 @@ public class PedidoServiceImpl implements PedidoService{
         newPedido.setUsuario(null); // usuario (siempre se crea a null)
         newPedido.setVehiculo(pedidoReq.getVehiculo()); // vehiculo
 
-        Empresa empresaPedido = empresaSer
         newPedido.setEmpresa(pedidoReq.getEmpresa()); // empresa
 
         Direccion origenPedido = direccionService.getDireccion(pedidoReq.getOrigen()); // dirección origen
