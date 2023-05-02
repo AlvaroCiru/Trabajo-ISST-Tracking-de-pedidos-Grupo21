@@ -20,6 +20,7 @@ import es.upm.dit.isst.backend.enums.EstadoPedido;
 import es.upm.dit.isst.backend.model.Traza;
 import es.upm.dit.isst.backend.repository.TrazaRepository;
 import es.upm.dit.isst.backend.service.PedidoService;
+import es.upm.dit.isst.backend.service.TrazaService;
 
 @RestController
 @RequestMapping("/tracking/api/trazas")
@@ -27,6 +28,9 @@ public class TrazaController {
 
     @Autowired
     TrazaRepository trazaRepository;
+
+    @Autowired
+    TrazaService trazaService;
 
     @Autowired
     PedidoService pedidoService;
@@ -62,8 +66,8 @@ public class TrazaController {
                 pedidoService.cambiarEstado(trazaReq.getPedido().getCodigo(), EstadoPedido.EN_REPARTO);
             }
             
-            trazaRepository.save(trazaReq);
-            return ResponseEntity.created(new URI("/tracking/api/trazas/" + trazaReq.getId())).body(trazaReq);
+            Traza trazaCreada = trazaService.createTraza(trazaReq);
+            return ResponseEntity.created(new URI("/tracking/api/trazas/" + trazaCreada.getId())).body(trazaCreada);
         } catch(IllegalArgumentException iae) {
             return ResponseEntity.badRequest().body(iae);
         } catch(URISyntaxException use) {

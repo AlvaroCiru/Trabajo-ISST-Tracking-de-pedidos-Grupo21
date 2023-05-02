@@ -68,5 +68,5 @@ public class Empresa {
         } else if (!nombre.equals(other.nombre))
             return false;
         return true;
-    }
+    } 
 }

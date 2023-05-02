@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
+import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,14 @@ public class PedidoServiceImpl implements PedidoService{
 
     @Autowired
     DireccionService direccionService;
+
+    @Override
+    public Pedido getPedidoByCodigo(String codigo) {
+        if(!pedidoRepository.findById(codigo).isPresent()) {
+            throw new IllegalArgumentException("No hay ningún pedido con el código proporcionado");
+        }
+        return pedidoRepository.findById(codigo).get();
+    }
 
     @Override
     public Pedido createPedido(Pedido pedidoReq) {
