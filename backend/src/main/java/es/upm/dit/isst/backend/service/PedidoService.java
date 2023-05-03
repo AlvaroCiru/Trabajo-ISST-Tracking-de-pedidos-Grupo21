@@ -7,4 +7,5 @@ public interface PedidoService {
     public Pedido createPedido(Pedido pedido);
     public Pedido cambiarEstado (String codigo, EstadoPedido estado);
     public Pedido getPedidoByCodigo(String codigo);
+    public Pedido addUsuario(String codigoPedido, String usuarioId);
 }

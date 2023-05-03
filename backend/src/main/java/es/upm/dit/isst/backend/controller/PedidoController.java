@@ -127,6 +127,21 @@ public class PedidoController {
         }
     }
 
+    @PutMapping("/agregarPedido/{compradorId}")
+    public ResponseEntity<?> addUsuarioToPedido(@PathVariable String compradorId, @RequestBody String codigoPedido) {
+        try{
+            if(compradorId == null || compradorId.equalsIgnoreCase("") || 
+            codigoPedido == null || codigoPedido.equalsIgnoreCase("")) {
+                return ResponseEntity.badRequest().body("Los parámetros no pueden estar vacíos");
+            }
+            Pedido pedidoAct = pedidoService.addUsuario(codigoPedido, compradorId);
+            return ResponseEntity.ok().body(pedidoAct);
+        } catch (IllegalArgumentException iae) {
+            return ResponseEntity.badRequest().body(iae.getMessage());
+        }
+        
+    }
+
     @PutMapping("/{pedidoId}/deliver")
     public ResponseEntity<?> iniciarReparto(@PathVariable String pedidoId) {
         Pedido pedidoAct = pedidoService.cambiarEstado(pedidoId, EstadoPedido.EN_REPARTO);

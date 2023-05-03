@@ -3,6 +3,7 @@ package es.upm.dit.isst.backend.controller;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.upm.dit.isst.backend.model.Usuario;
 import es.upm.dit.isst.backend.repository.EmpresaRepository;
 import es.upm.dit.isst.backend.repository.UsuarioRepository;
+import es.upm.dit.isst.backend.service.PedidoService;
 
 @CrossOrigin
 @RestController

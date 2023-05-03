@@ -6,12 +6,15 @@ import java.util.Optional;
 
 import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.UncategorizedDataAccessException;
 import org.springframework.stereotype.Service;
 
 import es.upm.dit.isst.backend.enums.EstadoPedido;
 import es.upm.dit.isst.backend.model.Direccion;
 import es.upm.dit.isst.backend.model.Pedido;
+import es.upm.dit.isst.backend.model.Usuario;
 import es.upm.dit.isst.backend.repository.PedidoRepository;
+import es.upm.dit.isst.backend.repository.UsuarioRepository;
 import es.upm.dit.isst.backend.service.DireccionService;
 import es.upm.dit.isst.backend.service.EmpresaService;
 import es.upm.dit.isst.backend.service.PedidoService;
@@ -21,6 +24,9 @@ public class PedidoServiceImpl implements PedidoService{
 
     @Autowired
     PedidoRepository pedidoRepository;
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @Autowired
     EmpresaService empresaService;
@@ -104,6 +110,28 @@ public class PedidoServiceImpl implements PedidoService{
         }
         Pedido pedido = pedidoRepository.findById(codigo).get();
         pedido.setEstado(estadoPedido);
+        Pedido pedidoAct = pedidoRepository.save(pedido);
+        return pedidoAct;
+    }
+
+    @Override
+    public Pedido addUsuario(String codigoPedido, String usuarioId) {
+        if(!pedidoRepository.existsById(codigoPedido)) {
+            throw new IllegalArgumentException("El código no pertenece a ningún pedido registrado");
+        }
+        if(!usuarioRepository.existsById(Integer.parseInt(usuarioId))) {
+            throw new IllegalArgumentException("El usuario solicitado no existe");
+        }
+        Pedido pedido = pedidoRepository.findById(codigoPedido).get();
+        Usuario usuario = usuarioRepository.findById(Integer.parseInt(usuarioId)).get();
+        if(pedido.getUsuario() != null) {
+            if(pedido.getUsuario() == usuario) {
+                return pedido;
+            } else {
+                throw new IllegalArgumentException("El pedido ya tiene un usuario asociado distinto al que lo solicita");
+            }
+        }
+        pedido.setUsuario(usuario);
         Pedido pedidoAct = pedidoRepository.save(pedido);
         return pedidoAct;
     }
