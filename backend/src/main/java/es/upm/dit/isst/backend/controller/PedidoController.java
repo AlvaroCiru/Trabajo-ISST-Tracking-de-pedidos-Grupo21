@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 // import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -104,7 +105,17 @@ public class PedidoController {
         }
     }
 
-    @PostMapping("")
+    @PostMapping("/crearVariosPedidos")
+    public ResponseEntity<?> createVariosPedidos(@RequestBody List<Pedido> pedidosReq) {
+        List<Pedido> newPedidos = new ArrayList<Pedido>();
+        for(Pedido pedido : pedidosReq) {
+            Pedido newPedido = pedidoService.createPedido(pedido);
+            newPedidos.add(newPedido);
+        }
+        return ResponseEntity.ok().body(newPedidos);
+    }
+
+    @PostMapping("/crearPedido")
     public ResponseEntity<?> createPedido(@RequestBody Pedido pedidoReq) {
         try {
             Pedido pedidoCreado = pedidoService.createPedido(pedidoReq);
