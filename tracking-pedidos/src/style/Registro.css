@@ -12,6 +12,7 @@
     flex-direction: column;
     border: 3px solid black;
     padding: 20px;
+    justify-content: center;
     border-radius: 15px;
     align-items: center;
 }
@@ -35,7 +36,8 @@
 
 .formRegistro {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    text-align: center;
     margin-top: 10px;
     padding: 10px;
 }

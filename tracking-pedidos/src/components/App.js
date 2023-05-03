@@ -14,33 +14,33 @@ import CONFIG from '../config/config'
 
 function App() {
 
-  const [data, setData] = useState(mockdata);
+  const [users, setUsers] = useState(null);
   const[loading, setLoading] = useState(true);
 
-const download = async () => {
-  let downloadedProducts;
+const downloadUsers = async () => {
+  let downloadedUsers;
   try {
-    const res = await fetch(CONFIG.SERVER_URL);
-    downloadedProducts = await res.json();
+    const res = await fetch(CONFIG.users_url);
+    downloadedUsers = await res.json();
   } catch (e) {
     alert("No se ha podido recuperar la información."); 
   }
-  setData(downloadedProducts);
+  setUsers(downloadedUsers);
 }
 
 useEffect(() => {
-  async function fetchData() {
-    await download();
+  async function fetchDataUsers() {
+    await downloadUsers();
       
     setTimeout(()=>{
       setLoading(false);
     },500);		
   }
 
-  if(CONFIG.USE_SERVER){
-    fetchData()
+  if(CONFIG.use_server){
+    fetchDataUsers()
   } else{
-    setData(mockdata);
+    setUsers(mockdata);
     setTimeout(()=>{
       setLoading(false);
     },500);
@@ -53,12 +53,12 @@ useEffect(() => {
       <Navbar/>
       <Routes>   
           <Route path="/" element={<Inicio/>}/>
-          <Route path="/login" element={<Login/>}/>
+          <Route path="/login" element={<Login usuarios={users}/>}/>
           <Route path="/registro" element={<Registro/>}/>
-          <Route path="/comprador" element={<Comprador pedidos={data.pedidos}/>}/>
-          <Route path="/gestor" element={<Gestor pedidos={data.pedidos}/>}/>
-          <Route path="/comprador/:idPedido" element={<UnPedido pedidos={data.pedidos}/>}/>
-          <Route path="/gestor/:idPedido" element={<UnPedido pedidos={data.pedidos}/>}/>
+          <Route path="/comprador" element={<Comprador/>}/>
+          <Route path="/gestor" element={<Gestor/>}/>
+          <Route path="/comprador/:idPedido" element={<UnPedido/>}/>
+          <Route path="/gestor/:idPedido" element={<UnPedido/>}/>
           <Route path="*" element={<NoMatch />} />
       </Routes>
     </div>
