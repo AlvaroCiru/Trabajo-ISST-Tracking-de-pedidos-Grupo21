@@ -11,12 +11,9 @@ export default function Registro(props){
     const [telefono, setTelefono] = useState("");
     const [email, setEmail] = useState("");
     const [registroCorrecto, setRegistroCorrecto] = useState(false);
-    // const bcrypt = require("bcrypt");
-    // const BCRYPT_SALT_ROUNDS = 12;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // const cryptedKey = bcrypt.hash(contrasena, BCRYPT_SALT_ROUNDS);
     
         // Enviar datos al backend
         fetch("http://localhost:8083/tracking/api/usuarios/compradores", {
