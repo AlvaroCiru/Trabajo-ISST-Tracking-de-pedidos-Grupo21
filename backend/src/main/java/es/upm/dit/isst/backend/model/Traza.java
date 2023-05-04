@@ -3,9 +3,6 @@ package es.upm.dit.isst.backend.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import org.apache.commons.lang3.builder.EqualsExclude;
-import org.springframework.web.servlet.FlashMapManager;
-
 import lombok.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

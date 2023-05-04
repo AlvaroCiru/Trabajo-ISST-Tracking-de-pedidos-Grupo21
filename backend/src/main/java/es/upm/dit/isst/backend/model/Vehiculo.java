@@ -2,8 +2,6 @@ package es.upm.dit.isst.backend.model;
 
 import lombok.*;
 
-import org.apache.commons.lang3.builder.EqualsExclude;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

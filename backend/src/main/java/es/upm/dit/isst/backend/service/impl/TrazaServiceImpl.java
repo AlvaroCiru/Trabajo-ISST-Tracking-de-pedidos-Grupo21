@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import es.upm.dit.isst.backend.model.Traza;
 import es.upm.dit.isst.backend.model.Vehiculo;
-import es.upm.dit.isst.backend.model.Pedido;
 import es.upm.dit.isst.backend.repository.PedidoRepository;
 import es.upm.dit.isst.backend.repository.TrazaRepository;
 import es.upm.dit.isst.backend.repository.VehiculoRepository;
