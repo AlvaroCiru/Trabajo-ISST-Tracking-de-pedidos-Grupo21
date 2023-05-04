@@ -1,11 +1,13 @@
 package es.upm.dit.isst.backend.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import es.upm.dit.isst.backend.model.Vehiculo;
 import es.upm.dit.isst.backend.repository.VehiculoRepository;
 import es.upm.dit.isst.backend.service.VehiculoService;
 
+@Service
 public class VehiculoServiceImpl implements VehiculoService{
 
     @Autowired
