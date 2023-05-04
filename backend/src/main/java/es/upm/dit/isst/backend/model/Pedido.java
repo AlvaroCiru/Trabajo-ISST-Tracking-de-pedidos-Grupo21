@@ -34,7 +34,6 @@ import jakarta.persistence.Table;
 @ToString
 public class Pedido {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String codigo;
     
     @Column(name = "titulo", nullable = false)

@@ -1,5 +1,6 @@
 package es.upm.dit.isst.backend.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,17 @@ public class EmpresaServiceImpl implements EmpresaService{
 
     @Autowired
     EmpresaRepository empresaRepository;
+
+    @Override
+    public Empresa getEmpresa(Empresa empresareq) {
+        List<Empresa> empresas = (List<Empresa>) empresaRepository.findAll();
+        for (Empresa empresa : empresas) {
+            if(empresa.equals(empresareq)) {
+                return empresa;
+            }
+        }
+        return null;
+    }
 
     @Override
     public Empresa getEmpresaByEmail(String email) {

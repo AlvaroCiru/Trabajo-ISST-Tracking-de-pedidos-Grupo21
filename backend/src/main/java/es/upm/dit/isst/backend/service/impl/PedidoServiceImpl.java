@@ -11,13 +11,16 @@ import org.springframework.stereotype.Service;
 
 import es.upm.dit.isst.backend.enums.EstadoPedido;
 import es.upm.dit.isst.backend.model.Direccion;
+import es.upm.dit.isst.backend.model.Empresa;
 import es.upm.dit.isst.backend.model.Pedido;
 import es.upm.dit.isst.backend.model.Usuario;
+import es.upm.dit.isst.backend.model.Vehiculo;
 import es.upm.dit.isst.backend.repository.PedidoRepository;
 import es.upm.dit.isst.backend.repository.UsuarioRepository;
 import es.upm.dit.isst.backend.service.DireccionService;
 import es.upm.dit.isst.backend.service.EmpresaService;
 import es.upm.dit.isst.backend.service.PedidoService;
+import es.upm.dit.isst.backend.service.VehiculoService;
 
 @Service
 public class PedidoServiceImpl implements PedidoService{
@@ -27,6 +30,9 @@ public class PedidoServiceImpl implements PedidoService{
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    VehiculoService vehiculoService;
 
     @Autowired
     EmpresaService empresaService;
@@ -80,9 +86,23 @@ public class PedidoServiceImpl implements PedidoService{
         }
         newPedido.setEstado(EstadoPedido.EN_PREPARACION); // estado (siempre se crea a "EN_PREPARACION")
         newPedido.setUsuario(null); // usuario (siempre se crea a null)
-        newPedido.setVehiculo(pedidoReq.getVehiculo()); // vehiculo
+        
+        Vehiculo vehiculo = vehiculoService.getVehiculo(pedidoReq.getVehiculo());// vehiculo
+        if(vehiculo == null){
+            Vehiculo newVehiculo = vehiculoService.createVehiculo(pedidoReq.getVehiculo());
+        newPedido.setVehiculo(newVehiculo);
+        }
+        else{
+            newPedido.setVehiculo(vehiculo);
+        }
 
-        newPedido.setEmpresa(pedidoReq.getEmpresa()); // empresa
+        Empresa empresa = empresaService.getEmpresa(pedidoReq.getEmpresa());
+        if(empresa == null){
+            throw new IllegalArgumentException("Solo se pueden mandar pedidos de una empresa suscrita al sistema");
+        }
+        else{
+            newPedido.setEmpresa(empresa);
+        }
 
         Direccion origenPedido = direccionService.getDireccion(pedidoReq.getOrigen()); // dirección origen
         if(origenPedido == null) {
@@ -92,12 +112,12 @@ public class PedidoServiceImpl implements PedidoService{
             newPedido.setOrigen(origenPedido);
         }
 
-        Direccion destinoPedido = direccionService.getDireccion(pedidoReq.getOrigen()); // direccion destino
+        Direccion destinoPedido = direccionService.getDireccion(pedidoReq.getDestino()); // direccion destino
         if(destinoPedido == null) {
-            Direccion newDestino = direccionService.createDireccion(pedidoReq.getOrigen());
-            newPedido.setOrigen(newDestino);
+            Direccion newDestino = direccionService.createDireccion(pedidoReq.getDestino());
+            newPedido.setDestino(newDestino);
         } else {
-            newPedido.setOrigen(destinoPedido);
+            newPedido.setDestino(destinoPedido);
         }
         Pedido pedidoCreado = pedidoRepository.save(newPedido);
         return pedidoCreado;
