@@ -1,9 +1,8 @@
 package es.upm.dit.isst.backend;
 
-
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +15,7 @@ import es.upm.dit.isst.backend.repository.UsuarioRepository;
 
 
 @SpringBootTest
-class Backend {
+class BackendTest {
 
 	@Autowired
 	UsuarioRepository repo;
@@ -24,7 +23,7 @@ class Backend {
 	@Test
 	void prueba1(){
 		boolean a = true;
-		Assertions.assertTrue(a);
+		assertTrue(a);
 	}
 
 	@Test
@@ -39,7 +38,7 @@ class Backend {
 		System.out.println(usu1.getNombre());
 		System.out.println(usu2.getNombre());
 
-		Assertions.assertTrue(usu1.getNombre()==usu2.getNombre());
+		assertNotEquals(usu1.getNombre(), usu2.getNombre());
 	}
 
 	@Test
@@ -54,7 +53,7 @@ class Backend {
 		System.out.println(usu1.getContrasena());
 		System.out.println(usu2.getContrasena());
 
-		Assertions.assertTrue(usu1.getContrasena()==usu2.getContrasena());
+		assertNotEquals(usu1.getContrasena(), usu2.getContrasena());
 	}
 
 	@Test
@@ -69,7 +68,7 @@ class Backend {
 		System.out.println(usu1.getEmail());
 		System.out.println(usu2.getEmail());
 
-		Assertions.assertTrue(usu1.getEmail()==usu2.getEmail());
+		assertNotEquals(usu1.getEmail(), usu2.getEmail());
 	}
 
 	@Test
@@ -84,25 +83,17 @@ class Backend {
 		System.out.println(usu1.getTelefono());
 		System.out.println(usu2.getTelefono());
 
-		Assertions.assertTrue(usu1.getTelefono()==usu2.getTelefono());
+		assertNotEquals(usu1.getTelefono(), usu2.getTelefono());
 	}
 
 	@Test
-	void compruebaFindByIdNombre(){
-		Direccion direccion1 = new Direccion(0, 25.3, 0.29, "Cuenca", "Tarancon", "calle santo tomas", "28698");
-		Empresa empresa1 = new Empresa(0, "empresa1", "empresa1@gmail.com", "62512555", direccion1);
-		Usuario usu1 = new Usuario(7, "raul", "raul@gmail.com", "contra", "69785695", false, empresa1);
+	void compruebaFindByNombre(){
+		Usuario usu1 = new Usuario(7, "raul", "raul@gmail.com", "contra", "69785695", false, null);
 		repo.save(usu1);
 		List<Usuario> a = repo.findByNombre("raul");
 		boolean resultado = a.isEmpty();
-		Assertions.assertFalse(resultado);
+		assertFalse(resultado);
+		assertEquals(usu1, a.get(0));
 	}
-
-
-
-
-
-
-
 
 }
