@@ -53,16 +53,14 @@ public class TrazaController {
        }
 
     
-    @PostMapping("")
+    @PostMapping("/createTraza")
     public ResponseEntity<?> createTraza(@RequestBody Traza trazaReq) {
         try{
-            if(trazaReq == null) 
+            if(trazaReq == null) {
                 return ResponseEntity.badRequest().body("La traza pasada no está bien");
-
-            if(trazaRepository.existsById(trazaReq.getId())) 
-                return ResponseEntity.badRequest().body("La traza ya está registrada");
+            }
             
-            if(trazaRepository.findByPedido(trazaReq.getPedido()).isEmpty()) {
+            if(trazaRepository.findByPedido(trazaReq.getPedido()).isEmpty()) { // no hay trazas asociadas al pedido indicado
                 pedidoService.cambiarEstado(trazaReq.getPedido().getCodigo(), EstadoPedido.EN_REPARTO);
             }
             

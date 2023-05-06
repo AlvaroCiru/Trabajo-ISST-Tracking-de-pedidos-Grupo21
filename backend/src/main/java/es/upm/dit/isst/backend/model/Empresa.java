@@ -2,6 +2,8 @@ package es.upm.dit.isst.backend.model;
 
 import lombok.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,10 +40,12 @@ public class Empresa {
     private String email;
 
     @Column(name = "telefono", nullable = false, unique = true)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     private String telefono;
 
     @ManyToOne
     @JoinColumn(name = "direccion_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Direccion direccion;
 
     @Override

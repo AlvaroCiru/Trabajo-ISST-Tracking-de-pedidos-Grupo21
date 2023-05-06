@@ -51,7 +51,6 @@ public class Pedido {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = true)
-    @JsonIgnore
     private Usuario usuario;
 
     @ManyToOne

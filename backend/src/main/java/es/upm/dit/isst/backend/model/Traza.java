@@ -23,7 +23,6 @@ import jakarta.persistence.Table;
 public class Traza {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @EqualsAndHashCode.Exclude
     private int id;
 
     @Column(name = "latitud", nullable = false)

@@ -53,11 +53,11 @@ public class TrazaServiceImpl implements TrazaService{
             newTraza.setPedido(pedidoRepository.findById(trazaReq.getPedido().getCodigo()).get());
         }
 
-        if(vehiculoService.getVehiculoByMatricula(trazaReq.getVehiculo().getMatricula()) == null) {
+        if(vehiculoService.getVehiculo(trazaReq.getVehiculo()) == null) {
             Vehiculo newVehiculo = vehiculoService.createVehiculo(trazaReq.getVehiculo());
             newTraza.setVehiculo(newVehiculo);
         } else {
-            newTraza.setVehiculo(vehiculoService.getVehiculoByMatricula(trazaReq.getVehiculo().getMatricula()));
+            newTraza.setVehiculo(vehiculoService.getVehiculo(trazaReq.getVehiculo()));
         }
         
         Traza trazaCreada = trazaRepository.save(newTraza);

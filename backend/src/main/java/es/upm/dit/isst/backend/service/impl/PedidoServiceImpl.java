@@ -139,8 +139,12 @@ public class PedidoServiceImpl implements PedidoService{
         if(!usuarioRepository.existsById(Integer.parseInt(usuarioId))) {
             throw new IllegalArgumentException("El usuario solicitado no existe");
         }
-        Pedido pedido = pedidoRepository.findById(codigoPedido).get();
         Usuario usuario = usuarioRepository.findById(Integer.parseInt(usuarioId)).get();
+        if(usuario.isEs_gestor()) {
+            throw new IllegalArgumentException("El usuario solicitado es un gestor. Solo se pueden añadir compradores");
+        }
+        Pedido pedido = pedidoRepository.findById(codigoPedido).get();
+        
         if(pedido.getUsuario() != null) {
             if(pedido.getUsuario() == usuario) {
                 return pedido;

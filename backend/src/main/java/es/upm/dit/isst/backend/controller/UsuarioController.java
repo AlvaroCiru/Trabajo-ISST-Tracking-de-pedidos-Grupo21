@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.upm.dit.isst.backend.model.Usuario;
 import es.upm.dit.isst.backend.repository.EmpresaRepository;
 import es.upm.dit.isst.backend.repository.UsuarioRepository;
+import es.upm.dit.isst.backend.service.UsuarioService;
 
 @CrossOrigin
 @RestController
@@ -27,6 +28,9 @@ public class UsuarioController {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    UsuarioService usuarioService;
 
     @Autowired
     EmpresaRepository empresaRepository;
@@ -40,6 +44,16 @@ public class UsuarioController {
     public ResponseEntity<?> getUsuario(@PathVariable String usuarioId) {
         Usuario usuario = usuarioRepository.findById(Integer.parseInt(usuarioId)).get();
         return ResponseEntity.ok().body(usuario);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Usuario usuarioReq) {
+        if(usuarioReq == null) {
+            return ResponseEntity.badRequest().body("No hay usuario");
+        }
+        System.out.println(usuarioReq.toString());
+        Usuario usuarioLogged = usuarioService.login(usuarioReq);
+        return ResponseEntity.ok().body(usuarioLogged);
     }
 
     @PostMapping("/compradores")
