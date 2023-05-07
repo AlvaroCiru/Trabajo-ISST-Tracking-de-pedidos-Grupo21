@@ -3,9 +3,6 @@ package es.upm.dit.isst.backend.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import es.upm.dit.isst.backend.enums.EstadoPedido;
 import lombok.*;
 import jakarta.persistence.Column;
