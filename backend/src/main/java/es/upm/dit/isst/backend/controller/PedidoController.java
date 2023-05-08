@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +29,7 @@ import es.upm.dit.isst.backend.service.PedidoService;
 
 import org.springframework.web.bind.annotation.PutMapping;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/tracking/api/pedidos")
 public class PedidoController {
@@ -68,10 +69,10 @@ public class PedidoController {
         try {
             Optional<Usuario> comprador = usuarioRepository.findById(Integer.parseInt(compradorId));
 
-            if(comprador.isPresent()) {
+            if(!comprador.isPresent()) {
                 return ResponseEntity.badRequest().body("El comprador no existe");
             }
-
+            
             return ResponseEntity.ok().body(pedidoRepository.findByUsuario(comprador.get()));
         } catch(RuntimeException exc) {
             return ResponseEntity.badRequest().body(exc);

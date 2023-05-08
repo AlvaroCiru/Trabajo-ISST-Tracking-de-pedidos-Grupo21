@@ -1,31 +1,32 @@
 import React, { useEffect, useState } from "react";
 import "./../../style/Gestor.css"
 import Pedido from "../Pedido";
+import { useParams } from "react-router-dom";
 
 
 export default function Gestor(props){
     
-    const [pedidos, setPedidos] = useState(props.pedidos);
+    const [pedidos, setPedidos] = useState(null);
+    const {idGestor} = useParams()
 
-    const empresas = props.pedidos.reduce(
-        (previousValue, currentValue)=>{
-            if(!previousValue.includes(currentValue.empresa)){
-                previousValue.push(currentValue.empresa);
-            }
-            return previousValue;
-    },[]);
+    // const empresas = props.pedidos.reduce(
+    //     (previousValue, currentValue)=>{
+    //         if(!previousValue.includes(currentValue.empresa)){
+    //             previousValue.push(currentValue.empresa);
+    //         }
+    //         return previousValue;
+    // },[]);
 
-    const filtraempresa = (emp) => {
-
-        const resultado = props.pedidos;
-
-        return resultado.filter((el)=>
-        el.empresa.toString().toLowerCase().includes(emp.toString().toLowerCase()));
+    const getPedidos = async () => {
+        const peticion = await fetch(`http://localhost:8083/tracking/api/pedidos/gestores/${idGestor}`)
+        const peticionJSON = await peticion.json()
+        setPedidos(peticionJSON)
+        console.log(pedidos)
     }
 
     useEffect(()=> {
-        setPedidos(filtraempresa("ebay"))
-    })
+        getPedidos()
+    }, [])
 
     return(
         <div>
@@ -34,18 +35,16 @@ export default function Gestor(props){
                 <div className="container-pedidosgestor">
 
                     <div className="elementopedidosgestor">
-                        <h3 className="mispedidos">Pedidos Operativos de la empresa : {empresas[0]}</h3>
-                        {pedidos.map((pedido, index)=>
-                            <div className="tarjetapedido">
+                        <h3 className="mispedidos">Pedidos Operativos de la empresa : </h3>
+                        {pedidos ? pedidos.map((pedido, index)=>
+                            <div className="tarjetapedido" key={pedido.codigo}>
                                 <Pedido
-                                    key= {index}
-                                    id= {pedido.id}
-                                    title= {pedido.title}
-                                    description= {pedido.description}
-                                    ruta="/gestor/"
+                                    id= {pedido.codigo}
+                                    title= {pedido.titulo}
+                                    description= {pedido.descripcion}
                                 />
                             </div>
-                        )}
+                        ) : <span>Spinner</span>}
                     </div>
                     <div className="elementopedidosgestor">
                         <div className="historico">Ver Histórico de Pedidos</div>

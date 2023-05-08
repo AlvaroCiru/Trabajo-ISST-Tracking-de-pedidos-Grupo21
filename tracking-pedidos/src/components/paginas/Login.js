@@ -5,43 +5,61 @@ import "./../../style/Login.css"
 
 export default function Login(props){
     
-    const [users, setUsers] = useState(props.usuarios)
     const [nombreUsuario, setNombreUsuario] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const gestores = users.reduce(
-        (previousValue, currentValue)=>{
-            if(previousValue.es_gestor){
-                previousValue.push(currentValue);
-            }
-            return previousValue;
-        },[]);
+    const loginasync = async () => {
+        const user = {
+            nombre: nombreUsuario, 
+            contrasena: password
+        }
+        console.log(user)
+        const peticion = await fetch("http://localhost:8083/tracking/api/usuarios/login", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(user)
+        })
+        const peticionJSON = await peticion.json()
+        console.log(peticionJSON)
+        return peticionJSON
+    }
+
+    const loginsync = () => {
+        const user = {
+            nombre: nombreUsuario, 
+            contrasena: password
+        }
+        console.log(user)
+        fetch("http://localhost:8083/tracking/api/usuarios/login", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(user)
+        })
+        .then((response) => response.json())
+        .then((data) => {return data})
+    }
     
-    const compradores = users.reduce(
-        (previousValue, currentValue)=>{
-                if(!previousValue.es_gestor){
-                    previousValue.push(currentValue);
-                }
-                return previousValue;
-        },[]);
-    
-    const direccionaLogin = () =>{
-        
-        const user = users.find(u=> u.nombre === nombreUsuario && u.contrasena === password);
+    const direccionaLogin = async () =>{
+        const user = await loginasync()
+        console.log(user)
+        // const user = users.find(u=> u.nombre === nombreUsuario && u.contrasena === password);
 
         if(user) {
-            navigate('/comprador');
-            alert("Se ha iniciado sesión correctamente!");
+            if(user.es_gestor) {
+                navigate(`/gestor/${user.id}/pedidos`);
+            } else {
+                navigate(`/comprador/${user.id}/pedidos`)
+            }
         } else {
-            alert("algo ha fallado...")
+            alert("Las credenciales no son válidas")
         }
 
     }
         
     useEffect(() => {
-        console.log(compradores);
-        console.log(gestores);
+        // console.log(compradores);
+        // console.log(gestores);
     })
     return(
         <div className="container">
@@ -64,10 +82,6 @@ export default function Login(props){
                             onChange={(e)=> setPassword(e.target.value)}/>
 
                         <button type="button" className="enter" onClick={direccionaLogin}>ENTRAR</button>
-                    </div>
-                    <div className="botonesUsuario">
-                        <Link to="/comprador" className="botoncomprador">COMPRADOR</Link>
-                        <Link to="/gestor" className="botongestor">GESTOR</Link>
                     </div>
                 </div>
                 <Link to="/" className="volver">VOLVER</Link>

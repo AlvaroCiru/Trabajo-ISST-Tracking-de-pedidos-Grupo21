@@ -51,7 +51,7 @@ public class UsuarioController {
         if(usuarioReq == null) {
             return ResponseEntity.badRequest().body("No hay usuario");
         }
-        System.out.println(usuarioReq.toString());
+        // System.out.println(usuarioReq.toString());
         Usuario usuarioLogged = usuarioService.login(usuarioReq);
         return ResponseEntity.ok().body(usuarioLogged);
     }

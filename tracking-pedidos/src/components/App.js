@@ -16,7 +16,6 @@ function App() {
 
   const [users, setUsers] = useState(null);
   const[loading, setLoading] = useState(true);
-
 const downloadUsers = async () => {
   let downloadedUsers;
   try {
@@ -53,12 +52,12 @@ useEffect(() => {
       <Navbar/>
       <Routes>   
           <Route path="/" element={<Inicio/>}/>
-          <Route path="/login" element={<Login usuarios={users}/>}/>
+          <Route path="/login" element={<Login/>}/>
           <Route path="/registro" element={<Registro/>}/>
-          <Route path="/comprador" element={<Comprador/>}/>
-          <Route path="/gestor" element={<Gestor/>}/>
-          <Route path="/comprador/:idPedido" element={<UnPedido/>}/>
-          <Route path="/gestor/:idPedido" element={<UnPedido/>}/>
+          <Route path="/comprador/:idComprador/pedidos" element={<Comprador/>}/>
+          <Route path="/gestor/:idGestor/pedidos" element={<Gestor/>}/>
+          <Route path="/comprador/:idComprador/pedidos/:idPedido" element={<UnPedido/>}/>
+          <Route path="/gestor/:idGestor/pedidos/:idPedido" element={<UnPedido/>}/>
           <Route path="*" element={<NoMatch />} />
       </Routes>
     </div>
