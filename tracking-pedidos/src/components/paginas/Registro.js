@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import { useState, useEffect } from 'react';
 
 import "./../../style/Registro.css"
@@ -11,6 +11,7 @@ export default function Registro(props){
     const [telefono, setTelefono] = useState("");
     const [email, setEmail] = useState("");
     const [registroCorrecto, setRegistroCorrecto] = useState(false);
+    const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -32,6 +33,7 @@ export default function Registro(props){
           .then((data) => {
             setRegistroCorrecto(true);
             alert("EL registro se ha realizado correctamente!")
+            navigate("/")
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -80,7 +82,7 @@ export default function Registro(props){
                 </div>
                 <div id="terminosCondiciones">
                     <input className="termsCheck" type="checkbox" value="" id="termsCheck" required/>
-                    <label className="termsTitle" id="termsTitle" for="invalidCheck">Acepto los términos y condiciones</label>
+                    <label className="termsTitle" id="termsTitle" htmlFor="invalidCheck">Acepto los términos y condiciones</label>
                 </div>   
                 <button type="submit" className="enter" id="enviar">ENVIAR</button>            
             </form>
