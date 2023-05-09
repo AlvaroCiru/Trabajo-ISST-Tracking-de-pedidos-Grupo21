@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import es.upm.dit.isst.backend.model.Direccion;
 import es.upm.dit.isst.backend.repository.DireccionRepository;
 import es.upm.dit.isst.backend.service.DireccionService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/tracking/api/direcciones")
 public class DireccionController {

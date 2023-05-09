@@ -40,12 +40,11 @@ public class Empresa {
     private String email;
 
     @Column(name = "telefono", nullable = false, unique = true)
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
     private String telefono;
 
     @ManyToOne
     @JoinColumn(name = "direccion_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Direccion direccion;
 
     @Override

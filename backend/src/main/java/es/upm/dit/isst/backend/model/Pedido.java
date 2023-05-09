@@ -3,6 +3,9 @@ package es.upm.dit.isst.backend.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import es.upm.dit.isst.backend.enums.EstadoPedido;
 import lombok.*;
 import jakarta.persistence.Column;
@@ -44,22 +47,27 @@ public class Pedido {
 
     @ManyToOne
     @JoinColumn(name = "vehiculo_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Vehiculo vehiculo;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "empresa_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Empresa empresa;
 
     @ManyToOne
     @JoinColumn(name = "origen_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Direccion origen;
 
     @ManyToOne
     @JoinColumn(name = "destino_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Direccion destino;
 
     @Override

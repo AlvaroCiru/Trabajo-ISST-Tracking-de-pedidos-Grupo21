@@ -50,7 +50,7 @@ public class Usuario {
 
     @ManyToOne
     @JoinColumn(name = "empresa_id", nullable = true)
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Empresa empresa;
 
     @Override

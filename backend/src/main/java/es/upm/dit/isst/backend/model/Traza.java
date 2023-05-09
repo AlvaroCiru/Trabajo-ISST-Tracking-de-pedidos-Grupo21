@@ -3,6 +3,9 @@ package es.upm.dit.isst.backend.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,10 +42,12 @@ public class Traza {
 
     @ManyToOne
     @JoinColumn(name = "pedido_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Pedido pedido;
 
     @ManyToOne
-    @JoinColumn(name = "vehiculo_id", nullable = false)
+    @JoinColumn(name = "vehiculo_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Vehiculo vehiculo;
 
     @Override
