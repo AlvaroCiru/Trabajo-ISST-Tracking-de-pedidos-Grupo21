@@ -22,6 +22,7 @@ export default function Login(props){
         })
         const peticionJSON = await peticion.json()
         console.log(peticionJSON)
+        props.login(JSON.stringify(peticionJSON))
         return peticionJSON
     }
 
@@ -43,7 +44,6 @@ export default function Login(props){
     const direccionaLogin = async () =>{
         const user = await loginasync()
         console.log(user)
-        // const user = users.find(u=> u.nombre === nombreUsuario && u.contrasena === password);
 
         if(user) {
             if(user.es_gestor) {
@@ -66,7 +66,7 @@ export default function Login(props){
             <div className="pestana">
                 <h3 className="loginTitle">Login</h3>
                 <div className="login">
-                    <div className="formulario">
+                    <form className="formulario">
                         <input 
                             type="text" 
                             className="input" 
@@ -82,7 +82,7 @@ export default function Login(props){
                             onChange={(e)=> setPassword(e.target.value)}/>
 
                         <button type="button" className="enter" onClick={direccionaLogin}>ENTRAR</button>
-                    </div>
+                    </form>
                 </div>
                 <Link to="/" className="volver">VOLVER</Link>
             </div>

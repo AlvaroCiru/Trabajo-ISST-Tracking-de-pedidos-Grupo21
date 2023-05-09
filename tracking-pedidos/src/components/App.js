@@ -12,52 +12,63 @@ import Comprador from './paginas/Comprador';
 import Gestor from './paginas/Gestor';
 import CONFIG from '../config/config'
 
+
 function App() {
 
-  const [users, setUsers] = useState(null);
-  const[loading, setLoading] = useState(true);
-const downloadUsers = async () => {
-  let downloadedUsers;
-  try {
-    const res = await fetch(CONFIG.users_url);
-    downloadedUsers = await res.json();
-  } catch (e) {
-    alert("No se ha podido recuperar la información."); 
-  }
-  setUsers(downloadedUsers);
-}
+const [sesion, setSesion] = useState(
+  JSON.parse(window.localStorage.getItem('sesion'))
+)
+//   const [users, setUsers] = useState(null);
+//   const[loading, setLoading] = useState(true);
+// const downloadUsers = async () => {
+//   let downloadedUsers;
+//   try {
+//     const res = await fetch(CONFIG.users_url);
+//     downloadedUsers = await res.json();
+//   } catch (e) {
+//     alert("No se ha podido recuperar la información."); 
+//   }
+//   setUsers(downloadedUsers);
+// }
 
-useEffect(() => {
-  async function fetchDataUsers() {
-    await downloadUsers();
+// useEffect(() => {
+//   async function fetchDataUsers() {
+//     await downloadUsers();
       
-    setTimeout(()=>{
-      setLoading(false);
-    },500);		
-  }
+//     setTimeout(()=>{
+//       setLoading(false);
+//     },500);		
+//   }
 
-  if(CONFIG.use_server){
-    fetchDataUsers()
-  } else{
-    setUsers(mockdata);
-    setTimeout(()=>{
-      setLoading(false);
-    },500);
-  };
-}, [loading]);
+//   if(CONFIG.use_server){
+//     fetchDataUsers()
+//   } else{
+//     setUsers(mockdata);
+//     setTimeout(()=>{
+//       setLoading(false);
+//     },500);
+//   };
+// }, [loading]);
+
+  useEffect(() => {
+    window.localStorage.setItem('sesion', JSON.stringify(sesion))
+    console.log("La sesión contiene el usuario:")
+    console.log(JSON.parse(sesion))
+    console.log(typeof(sesion))
+  }, [sesion])
   
   return (
     <div>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossOrigin="anonymous"/>
-      <Navbar/>
+      <Navbar sesion={sesion} logout={setSesion}/>
       <Routes>   
-          <Route path="/" element={<Inicio/>}/>
-          <Route path="/login" element={<Login/>}/>
+          <Route path="/" element={<Inicio sesion={sesion}/>}/>
+          <Route path="/login" element={<Login login={setSesion}/>}/>
           <Route path="/registro" element={<Registro/>}/>
-          <Route path="/comprador/:idComprador/pedidos" element={<Comprador/>}/>
-          <Route path="/gestor/:idGestor/pedidos" element={<Gestor/>}/>
-          <Route path="/comprador/:idComprador/pedidos/:idPedido" element={<UnPedido/>}/>
-          <Route path="/gestor/:idGestor/pedidos/:idPedido" element={<UnPedido/>}/>
+          <Route path="/comprador/:idUsuario/pedidos" element={<Comprador/>}/>
+          <Route path="/gestor/:idUsuario/pedidos" element={<Gestor/>}/>
+          <Route path="/comprador/:idUsuario/pedidos/:idPedido" element={<UnPedido/>}/>
+          <Route path="/gestor/:idUsuario/pedidos/:idPedido" element={<UnPedido/>}/>
           <Route path="*" element={<NoMatch />} />
       </Routes>
     </div>
