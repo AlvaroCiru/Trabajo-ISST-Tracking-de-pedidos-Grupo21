@@ -10,7 +10,7 @@ export default function Pedido (props){
         <div className="unpedido">
             <div className="tituloPedido"><h3>{props.title}</h3></div>
             <div className="descripcionPedido"><p>{props.description}</p></div>
-            <Link to ={ props.ruta + (props.id-1).toString()} className="info">INFO</Link>
+            <Link to ={ props.ruta } className="info">INFO</Link>
         </div>
     )
 }
