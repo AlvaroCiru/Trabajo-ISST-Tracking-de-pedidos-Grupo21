@@ -45,3 +45,19 @@
     color: white;
 
 }
+
+.logout {
+    border: 2px solid #b10000;
+    border-radius: 7px;
+    padding: 5px;
+    margin: 5px;
+    margin-right: 10px;
+    background-color: white;
+    color: #b10000;
+    text-decoration: none;
+}
+
+.logout:hover {
+    background-color: #b10000;
+    color: white;
+}
