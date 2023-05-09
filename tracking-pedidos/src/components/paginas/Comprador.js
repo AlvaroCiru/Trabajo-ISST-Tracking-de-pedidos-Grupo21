@@ -9,8 +9,9 @@ import { useParams } from "react-router-dom";
 export default function Comprador(props){
     
     const [pedidos, setPedidos] = useState(null);
+    const [empresas, setEmpresas] = useState(null);
     const [codigoPedido, setCodigoPedido] = useState("");
-    const {idComprador} = useParams()
+    const {idUsuario} = useParams()
 
     // const empresas = props.pedidos.reduce(
     //     (previousValue, currentValue)=>{
@@ -20,23 +21,43 @@ export default function Comprador(props){
     //         return previousValue;
     // },[]);
 
+    const addPedido = async () => {
+        console.log(codigoPedido)
+        const peticion = await fetch(`http://localhost:8083/tracking/api/pedidos/agregarPedido/${idUsuario}`, {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: codigoPedido
+        })
+        const peticionJSON = await peticion.json()
+        console.log(peticionJSON)
+        await getPedidos()
+    }
+
     const getPedidos = async () => {
-        const peticion = await fetch(`http://localhost:8083/tracking/api/pedidos/compradores/${idComprador}`)
+        const peticion = await fetch(`http://localhost:8083/tracking/api/pedidos/compradores/${idUsuario}`)
         const peticionJSON = await peticion.json()
         setPedidos(peticionJSON)
         console.log(pedidos)
     }
 
+    const getEmpresas = async () => {
+        const peticion = await fetch(`http://localhost:8083/tracking/api/empresas`)
+        const peticionJSON = await peticion.json()
+        setEmpresas(peticionJSON)
+        console.log(empresas)
+    }
+
     const filtraempresa = (emp) => {
 
-        const resultado = props.pedidos;
+        // const resultado = props.pedidos;
 
-        return resultado.filter((el)=>
-        el.empresa.toString().toLowerCase().includes(emp.toString().toLowerCase()));
+        // return resultado.filter((el)=>
+        // el.empresa.toString().toLowerCase().includes(emp.toString().toLowerCase()));
     }
 
     useEffect(() => {
         getPedidos()
+        getEmpresas()
     }, [])
 
     return(
@@ -46,41 +67,36 @@ export default function Comprador(props){
             <div className="contenidocomprador">
                 <div className="listaempresas">
                     <ul className="nav flex-column">
-                        <li className="nav-item">
-                            {/* <img src="450px-EBay_logo.svg.png"  className="logoempresa" alt="logo"></img> */}
-                            <span>EBAY</span>
-                            <button type="button" className="btn btn-primary btn-sm"
-                            onClick={()=>setPedidos(filtraempresa("ebay"))}>Ver pedidos</button>
-                        </li>
-                        <li className="nav-item">
-                            {/* <img src="Amazon_logo.svg.png"  className="logoempresa" alt="logo"></img> */}
-                            <span>Amazon</span>
-                            <button type="button" className="btn btn-primary btn-sm"
-                            onClick={()=>setPedidos(filtraempresa("amazon"))}>Ver pedidos</button></li>
-                        <li className="nav-item">
-                            {/* <img src="Logo_NIKE.svg.png"  className="logoempresa" alt="logo"></img> */}
-                            <span>NIKE</span>
-                            <button type="button" className="btn btn-primary btn-sm"
-                            onClick={()=>setPedidos(filtraempresa("nike"))}>Ver pedidos</button></li>
-                        <li className="nav-item">
-                            {/* <img src="Aliexpress_logo.svg.png" className="logoempresa" alt="logo"></img> */}
-                            <span>AliExpress</span>
-                            <button type="button" className="btn btn-primary btn-sm"
-                            onClick={()=>setPedidos(filtraempresa("aliexpress"))}>Ver pedidos</button></li>
+                        { empresas ? 
+                            empresas.map((empresa, index) => 
+                                <li className="nav.item" key={empresa.id}>
+                                    <span>{empresa.nombre}</span>
+                                    <button type="button" className="btn btn-primary btn-sm"
+                                    onClick={() => filtraempresa(empresa.nombre)}>Filtrar</button>
+                                </li>
+                            ) : 
+                            <span>No hay empresas registradas</span>
+                        }
                     </ul>
                 </div>
                 <div className="container-pedidoscomprador">
-                    <div className="elementopedidoscomprador">
+                    <ul className="elementopedidoscomprador">
                         { pedidos ? pedidos.map((pedido, index)=>
-                            <div className="tarjetapedido" key= {pedido.codigo}>
+                            <li className="tarjetapedido" key= {pedido.codigo}>
                                 <Pedido
                                     id= {pedido.codigo}
                                     title= {pedido.titulo}
                                     description= {pedido.descripcion}
+                                    pedido={pedido}
+                                    ruta= {`/comprador/${idUsuario}/pedidos/${pedido.codigo}`}
                                 />
-                            </div>
-                        ) : <h3>Haz click en la empresa que quieras consultar</h3>}
-                    </div>
+                            </li>
+                        ) : 
+                        <div>
+                            <h3>Aún no se han añadido pedidos</h3>
+                            <p>Añada un pedido para ver su estado</p>
+                        </div> }
+                    </ul>
                     
                     <div className="registrarpedido">
                         {/* <h2 className="registraTitle">Registrar nuevo pedido</h2>
@@ -93,8 +109,9 @@ export default function Comprador(props){
                             placeholder="Escriba el código de su pedido"
                             aria-label="Escriba el código de su pedido"
                             aria-describedby="basic-addon2"
+                            onChange={(e) => setCodigoPedido(e.target.value.toString())}
                             />
-                            <Button variant="outline-secondary" id="button-addon2">
+                            <Button variant="outline-secondary" id="button-addon2" onClick={()=>addPedido()}>
                             Button
                             </Button>
                         </InputGroup>

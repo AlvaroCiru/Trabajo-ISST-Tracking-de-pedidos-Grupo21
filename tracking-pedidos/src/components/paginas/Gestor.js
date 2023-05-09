@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 export default function Gestor(props){
     
     const [pedidos, setPedidos] = useState(null);
-    const {idGestor} = useParams()
+    const {idUsuario} = useParams()
 
     // const empresas = props.pedidos.reduce(
     //     (previousValue, currentValue)=>{
@@ -18,7 +18,7 @@ export default function Gestor(props){
     // },[]);
 
     const getPedidos = async () => {
-        const peticion = await fetch(`http://localhost:8083/tracking/api/pedidos/gestores/${idGestor}`)
+        const peticion = await fetch(`http://localhost:8083/tracking/api/pedidos/gestores/${idUsuario}`)
         const peticionJSON = await peticion.json()
         setPedidos(peticionJSON)
         console.log(pedidos)
@@ -42,6 +42,7 @@ export default function Gestor(props){
                                     id= {pedido.codigo}
                                     title= {pedido.titulo}
                                     description= {pedido.descripcion}
+                                    ruta= {`/gestor/${idUsuario}/pedidos/${pedido.codigo}`}
                                 />
                             </div>
                         ) : <span>Spinner</span>}
