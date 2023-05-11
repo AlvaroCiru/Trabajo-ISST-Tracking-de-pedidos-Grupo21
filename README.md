@@ -21,5 +21,8 @@ Para la ejecución de la aplicación se seguirán los siguientes pasos:
 2. Abrir un terminal y situarse en la ruta donde se ha copiado la carpeta con el código.
 3. Acceder a la carpeta de tracking-pedidos, donde se encuentra el frontend de la aplicación e instalar las dependencias necesarias con: "npm install".
 4. A continuación, ejecutar la aplicación SpringBoot alojada en la carpeta backend con el comando: "./mvnw clean install spring-boot:run -DskipTests=true".
-5. Una vez se hayan creado las peticiones necesarias para el funcionamiento básico de la aplicación, arrancar la aplicación de React situado en la carpeta "/tracking-pedidos"
+5. Arrancar la aplicación de React situado en la carpeta "/tracking-pedidos"
 con npm start.
+Para que la aplicación funcione correctamente, se deberán añadir algunos datos a la base de datos:
+6. Crear al menos una empresa y pedidos directamente desde la API utilizando Postman con las peticiones correspondietes.
+7. Se proporciona un fichero JSON que contiene la API del proyecto. Para utilizar esta API se deberá importar el fichero JSON en la aplicación Postman
