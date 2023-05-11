@@ -24,5 +24,5 @@ Para la ejecución de la aplicación se seguirán los siguientes pasos:
 5. Arrancar la aplicación de React situado en la carpeta "/tracking-pedidos"
 con npm start.
 Para que la aplicación funcione correctamente, se deberán añadir algunos datos a la base de datos:
-6. Crear al menos una empresa y pedidos directamente desde la API utilizando Postman con las peticiones correspondietes.
+6. Crear al menos una empresa y pedidos directamente desde la API utilizando Postman con las peticiones correspondietes. Lo primero que se debe hacer es crear las empresas, ya que el resto de elementos dependen de ella.
 7. Se proporciona un fichero JSON que contiene la API del proyecto. Para utilizar esta API se deberá importar el fichero JSON en la aplicación Postman
