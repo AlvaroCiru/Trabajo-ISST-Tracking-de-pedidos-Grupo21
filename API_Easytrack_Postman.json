@@ -1,0 +1,400 @@
+{
+	"info": {
+		"_postman_id": "6414f11c-90e7-4344-a70b-03d4ee19824a",
+		"name": "API EasyTrack",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23324959",
+		"_collection_link": "https://grey-equinox-644946.postman.co/workspace/My-Workspace~f16bb23e-777d-48a3-8d7b-29b7ade5aa37/collection/23324959-6414f11c-90e7-4344-a70b-03d4ee19824a?action=share&creator=23324959&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Pedidos",
+			"item": [
+				{
+					"name": "Get All Pedidos Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8083/tracking/api/pedidos",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"tracking",
+								"api",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pedidos by Comprador Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8083/tracking/api/pedidos/compradores/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"tracking",
+								"api",
+								"pedidos",
+								"compradores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pedidos by Empresa Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8083/tracking/api/pedidos/gestores/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"tracking",
+								"api",
+								"pedidos",
+								"gestores",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pedido Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8083/tracking/api/pedidos/codigo1",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"tracking",
+								"api",
+								"pedidos",
+								"codigo1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Pedido Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codigo\": \"codigo1\",\r\n    \"titulo\": \"Pedido de Nike 1\",\r\n    \"descripcion\": \"Este es el primer pedido que ha hecho el comprador a Nike\",\r\n    \"vehiculo\": {\r\n        \"matricula\": \"1234ABC\",\r\n        \"telefono\": \"123456789\"\r\n    },\r\n    \"empresa\": {\r\n        \"nombre\": \"Nike\"\r\n    },\r\n    \"origen\": {\r\n        \"latitud\": 2.3,\r\n        \"longitud\": 2.3,\r\n        \"domicilio\": \"direccion1\",\r\n        \"postal_code\": \"CP1\"\r\n    },\r\n    \"destino\": {\r\n        \"latitud\": 1.5,\r\n        \"longitud\": 5.6,\r\n        \"domicilio\": \"direccion2\",\r\n        \"postal_code\": \"CP2\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8083/tracking/api/pedidos/crearPedido",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"tracking",
+								"api",
+								"pedidos",
+								"crearPedido"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Añadir Usuario a Pedido Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "codigo1",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8083/tracking/api/pedidos/agregarPedido/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"tracking",
+								"api",
+								"pedidos",
+								"agregarPedido",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "End Pedido Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8083/tracking/api/pedidos/codigo1/finish",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"tracking",
+								"api",
+								"pedidos",
+								"codigo1",
+								"finish"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Empresas",
+			"item": [
+				{
+					"name": "Create Empresa Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Nike\",\r\n    \"email\": \"nike@email.com\",\r\n    \"telefono\": \"nike\",\r\n    \"direccion\": {\r\n        \"latitud\": 2.3,\r\n        \"longitud\": 2.3,\r\n        \"domicilio\": \"direccion1\",\r\n        \"postal_code\": \"CP1\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8083/tracking/api/empresas",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"tracking",
+								"api",
+								"empresas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Get Usuario Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8083/tracking/api/usuarios/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"tracking",
+								"api",
+								"usuarios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Comprador Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"nombre1\",\r\n    \"email\": \"email1@email.com\",\r\n    \"contrasena\": \"password1\",\r\n    \"telefono\": \"telf1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/tracking/api/usuarios/compradores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"tracking",
+								"api",
+								"usuarios",
+								"compradores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Gestor Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"gestorNike\",\r\n    \"email\": \"gestorNike@email.com\",\r\n    \"contrasena\": \"password\",\r\n    \"telefono\": \"gestorNike\",\r\n    \"empresa\": {\r\n        \"nombre\": \"Nike\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8083/tracking/api/usuarios/gestores",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"tracking",
+								"api",
+								"usuarios",
+								"gestores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"nombre1\",\r\n    \"contrasena\": \"password1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8083/tracking/api/usuarios/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"tracking",
+								"api",
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Trazas",
+			"item": [
+				{
+					"name": "Create Traza Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"latitud\": 1.5,\r\n    \"longitud\": 1.5,\r\n    \"fecha_creacion\": \"2023-04-13\",\r\n    \"hora_creacion\": \"12:38:14.1696766\",\r\n    \"pedido\": {\r\n        \"codigo\": \"codigo1\"\r\n    },\r\n    \"vehiculo\": {\r\n        \"matricula\": \"1234ABC\",\r\n        \"telefono\": \"123456789\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8083/tracking/api/trazas/createTraza",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"tracking",
+								"api",
+								"trazas",
+								"createTraza"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
